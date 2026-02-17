@@ -13,6 +13,15 @@ $color = strtolower($color);
 if (strlen($color) === 3) {
 	$color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2];
 }
+
+// If the selected background is too bright, force black for visibility.
+$r = hexdec(substr($color, 0, 2));
+$g = hexdec(substr($color, 2, 2));
+$b = hexdec(substr($color, 4, 2));
+$luminance = (0.2126 * $r) + (0.7152 * $g) + (0.0722 * $b);
+if ($luminance >= 225) {
+	$color = '000000';
+}
 ?>
 <svg id="Calque_2" data-name="Calque 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 263.52 263.52">
 	<title>favicon</title>

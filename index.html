@@ -37,7 +37,6 @@ var initialValues={
 }
 </script>
 <script language="JavaScript" type="text/javascript" src="./js/app.js"></script>
-<script language="JavaScript" type="text/javascript" src="./js/smedias.js.tlchargement"></script>
 </head>
 <body onload="init();"> 
 	<h1 id="logo">
@@ -82,21 +81,26 @@ var initialValues={
 					<div id="tabcontent_canvas" class="tabContent">
 						<div class="cols">
 							<div class="leftCol">
-								<label class="paramLabel" for="canvasWidth">Size</label>
-								<input type="range" min="0" max="190" value="127" class="paramRange" id="canvasSizeRange">
-								<div class="paramValueRow sizeFields">
-									<input type="text" value="12" class="paramsField" id="canvasWidth">
-									<input type="text" value="12" class="paramsField" id="canvasHeight">
-									<i>px</i>
+								<div class="flex">
+									<label class="paramLabel" for="canvasWidth">Size</label>
+									<div class="paramValueRow sizeFields">
+										<input type="text" value="12" class="paramsField" id="canvasWidth">
+										<input type="text" value="12" class="paramsField" id="canvasHeight">
+										<i>px</i>
+									</div>
 								</div>
+								<input type="range" min="0" max="190" value="127" class="paramRange" id="canvasSizeRange">
 							</div>
 							<div class="rightCol">
-								<label class="paramLabel" for="textureOpacity">Texture opacity</label>
-								<input type="range" min="0" max="100" value="35" class="paramRange" id="textureOpacityRange">
-								<div class="paramValueRow">
-									<input type="text" value="35" class="paramsField" id="textureOpacity">
-									<i>%</i>
+								<div class="flex">
+									<label class="paramLabel" for="textureOpacity">Texture opacity</label>
+									<div class="paramValueRow">
+										<input type="text" value="35" class="paramsField" id="textureOpacity">
+										<i>%</i>
+									</div>
 								</div>
+								<input type="range" min="0" max="100" value="35" class="paramRange" id="textureOpacityRange">
+
 							</div>
 						</div>
 						<div class="samplesPane">
@@ -110,12 +114,14 @@ var initialValues={
 					<div id="tabcontent_image" class="tabContent">
 						<div class="cols">
 							<div class="leftCol">
-								<label class="paramLabel" for="imageScale">Image scale</label>
-								<input type="range" min="0" max="100" value="59" class="paramRange" id="imageScaleRange">
-								<div class="paramValueRow">
-									<input type="text" value="12" class="paramsField" id="imageScale">
-									<i>%</i>
+								<div class="flex">
+									<label class="paramLabel" for="imageScale">Image scale</label>
+									<div class="paramValueRow">
+										<input type="text" value="12" class="paramsField" id="imageScale">
+										<i>%</i>
+									</div>
 								</div>
+								<input type="range" min="0" max="100" value="59" class="paramRange" id="imageScaleRange">
 							</div>
 							<div class="middleCol">
 								<label class="paramLabel">Location</label>
@@ -129,12 +135,15 @@ var initialValues={
 								</ul>
 							</div>
 							<div class="rightCol">
-								<label class="paramLabel" for="imageOpacity">Image opacity</label>
-								<input type="range" min="0" max="100" value="52" class="paramRange" id="imageOpacityRange">
-								<div class="paramValueRow">
-									<input type="text" value="35" class="paramsField" id="imageOpacity">
-									<i>%</i>
+								<div class="flex">
+									<label class="paramLabel" for="imageOpacity">Image opacity</label>
+									<div class="paramValueRow">
+										<input type="text" value="35" class="paramsField" id="imageOpacity">
+										<i>%</i>
+									</div>
 								</div>
+								<input type="range" min="0" max="100" value="52" class="paramRange" id="imageOpacityRange">
+
 							</div>
 						</div>
 						<div class="samplesPane">

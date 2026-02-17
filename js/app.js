@@ -3037,6 +3037,16 @@ var DynamicFavicon={
 	}
 };
 
+var DynamicUi={
+	applyRangeAccentFromBg:function(value){
+		var hex=DynamicFavicon._sanitizeHex(value);
+		var ranges=document.getElementsByClassName('paramRange');
+		for(var i=0;i<ranges.length;i++){
+			ranges[i].style.setProperty('--range-accent','#'+hex);
+		}
+	}
+};
+
 //--------------------------- ControlParams.js --------------------------
 
 var ControlParams={
@@ -3086,6 +3096,7 @@ var ControlParams={
 		this.fields[paramName].value=value;
 		if(paramName=='bgColor'){
 			DynamicFavicon.applyFromColor(value);
+			DynamicUi.applyRangeAccentFromBg(value);
 		}
 		UrlState.scheduleSync(this.getAllParams());
 		if(!designerIsClosed)
@@ -3449,6 +3460,7 @@ function init(){
 	Extensions.removeCssClass(document.getElementById("wrapper"),'invisible');
 	UrlState.applyToInitialValues(initialValues);
 	DynamicFavicon.applyFromColor(initialValues.bgColor.value);
+	DynamicUi.applyRangeAccentFromBg(initialValues.bgColor.value);
 	document.getElementsByTagName('body')[0].style.background='url(assets/permanents/defaultPattern.jpg) #222';
 	var logo=document.getElementById('logo');
 	if(logo){
