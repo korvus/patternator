@@ -1,6 +1,6 @@
 # bgGenerator `prod`
 
-This project is a modernized remake of the old [bgpatterns.com](http://www.bgpatterns.com) interface.
+This project is a modernized remake of the old [bgpatterns.com (now a new site)](http://www.bgpatterns.com) interface.
 Archived reference:
 https://web.archive.org/web/20080828060206/http://www.bgpatterns.com/
 
