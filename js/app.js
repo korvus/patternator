@@ -3355,6 +3355,18 @@ function init(){
 	Extensions.addCssClass(document.getElementById("loadingBar"),'invisible');
 	UrlState.applyToInitialValues(initialValues);
 	document.getElementsByTagName('body')[0].style.background='url(assets/permanents/defaultPattern.jpg) #222';
+	var logo=document.getElementById('logo');
+	if(logo){
+		logo.onclick=function(){
+			var body=document.getElementsByTagName('body')[0];
+			if(String(body.className||'').indexOf('blocksFaded')!=-1){
+				Extensions.removeCssClass(body,'blocksFaded');
+			}else{
+				Extensions.addCssClass(body,'blocksFaded');
+			}
+			return false;
+		};
+	}
 	
 	//------------------------ init tabs -----------------------
 	

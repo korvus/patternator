@@ -14,6 +14,7 @@ body {
 	top: 10px;
 	height:78px;
 	background:url(../images/icone.png) no-repeat;
+	cursor:pointer;
 }
 	#logo ins{
 		display:none
@@ -841,6 +842,14 @@ img{
 		#right{
 			float:right;
 			width:300px;
+		}
+		#left, #right{
+			transition:opacity .15s linear;
+		}
+		body.blocksFaded #left,
+		body.blocksFaded #right{
+			opacity:0.1;
+			filter:alpha(opacity=10);
 		}
 			#left .m, #right .m{
 				height:350px !important;
