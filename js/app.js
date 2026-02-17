@@ -990,7 +990,7 @@ var ControlTabs={
 		var activeTab=document.getElementById('tab_'+this.active);
 		var selectedTab=document.getElementById('tab_'+tabName);
 
-		activeTab.innerHTML='<a href="#" onclick="ControlTabs.select(\''+this.active+'\'); return false;"><ins>'+this.tabs[this.active]+'</ins></a>';
+		activeTab.innerHTML='<a onmousedown="ControlTabs.select(\''+this.active+'\'); return false;"><ins>'+this.tabs[this.active]+'</ins></a>';
 		activeTab.className=String(activeTab.className).replace(/\s*active/i,'');
 
 		selectedTab.innerHTML='<span><ins>'+this.tabs[tabName]+'</ins></span>';
