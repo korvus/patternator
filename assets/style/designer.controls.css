@@ -1,0 +1,376 @@
+/* ------------ canvas ----------- */
+
+/* ------------ Image ----------- */
+
+.blockName {
+	clear: both;
+	margin: 15px 0 5px;
+	padding: 5px 0 3px 10px;
+	font-family: Georgia, Garamond, 'Times New Roman', sans;
+	font-size: 12px;
+	color: #444;
+	background: #eee;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.blockName:first-child {
+	margin: 5px 0 5px;
+}
+
+#tabcontent_image .leftCol,
+#tabcontent_image .middleCol,
+#tabcontent_image .rightCol {
+	position: absolute;
+	width: 195px;
+}
+#tabcontent_image .leftCol {
+	left: 15px;
+	text-align: left;
+}
+
+#tabcontent_image .middleCol {
+	left: 210px;
+	text-align: left;
+}
+#locModes {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	display: inline;
+	margin-left: 15px;
+}
+#locModes li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+#locModes li img {
+	display: none;
+	vertical-align: middle;
+}
+#locModes li a {
+	display: inline;
+	cursor: pointer;
+}
+#locModes li a img {
+	display: inline;
+	opacity: 0.3;
+	_filter: alpha(opacity=30);
+	cursor: pointer;
+}
+
+/*--- location: diagonal ---*/
+.locmode_diagonal .loc_diagonal a {
+	display: none !important;
+}
+.locmode_diagonal .loc_diagonal img {
+	display: inline !important;
+}
+
+/*--- location: straight ---*/
+.locmode_straight .loc_straight a {
+	display: none !important;
+}
+.locmode_straight .loc_straight img {
+	display: inline !important;
+}
+
+#tabcontent_image .rightCol {
+	right: 15px;
+	text-align: right;
+}
+
+#tabcontent_image.tabContent .cols {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 18px;
+	padding: 0 15px 6px;
+	box-sizing: border-box;
+	top: 12px;
+	min-height: 62px;
+}
+#tabcontent_image.tabContent .leftCol,
+#tabcontent_image.tabContent .middleCol,
+#tabcontent_image.tabContent .rightCol {
+	position: static;
+	width: auto;
+	flex: 1 1 0;
+	text-align: left;
+}
+#tabcontent_image.tabContent .leftCol {
+	order: 1;
+}
+#tabcontent_image.tabContent .rightCol {
+	order: 2;
+	text-align: left;
+}
+#tabcontent_image.tabContent .middleCol {
+	order: 3;
+	text-align: right;
+}
+#tabcontent_image.tabContent .paramLabel {
+	display: block;
+	margin: 0 0 4px 0;
+}
+#tabcontent_image.tabContent .paramRange {
+	display: block;
+	width: 100%;
+	margin: 0;
+	cursor: pointer;
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+}
+#tabcontent_image.tabContent .paramRange::-webkit-slider-runnable-track {
+	height: 6px;
+	border: 1px solid #a5acb2;
+	border-radius: 4px;
+	background: #f2f2f2;
+}
+#tabcontent_image.tabContent .paramRange::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	margin-top: -6px;
+	width: 14px;
+	height: 14px;
+	border: 1px solid #7f8b99;
+	border-radius: 50%;
+	background: #3870b2;
+}
+#tabcontent_image.tabContent .paramRange::-moz-range-track {
+	height: 6px;
+	border: 1px solid #a5acb2;
+	border-radius: 4px;
+	background: #f2f2f2;
+}
+#tabcontent_image.tabContent .paramRange::-moz-range-thumb {
+	width: 14px;
+	height: 14px;
+	border: 1px solid #7f8b99;
+	border-radius: 50%;
+	background: #3870b2;
+}
+#tabcontent_image.tabContent .paramValueRow {
+	margin-top: 2px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+#tabcontent_image.tabContent .paramValueRow i {
+	font-style: normal;
+}
+#tabcontent_image.tabContent .rightCol .paramValueRow {
+	justify-content: flex-start;
+}
+#tabcontent_image.tabContent #locModes {
+	margin: 0;
+	display: flex;
+	justify-content: flex-end;
+	gap: 4px;
+}
+#tabcontent_image.tabContent .middleCol .paramLabel {
+	text-align: right;
+}
+#tabcontent_image.tabContent .samplesPane {
+	top: 78px;
+}
+
+/* ------------ Canvas controls ----------- */
+#tabcontent_canvas .paramLabel {
+	display: block;
+	margin: 0 0 4px 0;
+}
+#tabcontent_canvas .paramRange {
+	display: block;
+	width: 200px;
+	margin: 0 0 2px 0;
+	cursor: pointer;
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+}
+#tabcontent_canvas .rightCol .paramRange {
+	margin-left: auto;
+}
+#tabcontent_canvas .paramRange::-webkit-slider-runnable-track {
+	height: 6px;
+	border: 1px solid #a5acb2;
+	border-radius: 4px;
+	background: #f2f2f2;
+}
+#tabcontent_canvas .paramRange::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	margin-top: -6px;
+	width: 14px;
+	height: 14px;
+	border: 1px solid #7f8b99;
+	border-radius: 50%;
+	background: #3870b2;
+}
+#tabcontent_canvas .paramRange::-moz-range-track {
+	height: 6px;
+	border: 1px solid #a5acb2;
+	border-radius: 4px;
+	background: #f2f2f2;
+}
+#tabcontent_canvas .paramRange::-moz-range-thumb {
+	width: 14px;
+	height: 14px;
+	border: 1px solid #7f8b99;
+	border-radius: 50%;
+	background: #3870b2;
+}
+#tabcontent_canvas .paramValueRow {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 8px;
+}
+#tabcontent_canvas .sizeFields {
+	gap: 4px;
+}
+#tabcontent_canvas .rightCol .paramValueRow {
+	justify-content: flex-end;
+}
+
+/* ------------ rotate ----------- */
+
+#angleSlider {
+	position: absolute;
+	left: 200px;
+	top: 70px;
+	width: 205px;
+	height: 205px;
+	overflow: visible;
+}
+#angleSlider a {
+	position: absolute;
+	color: #889cb3;
+	font-family: Georgia, Garamond, 'Times New Roman', sans;
+	font-size: 20px;
+	text-decoration: none;
+	border-bottom: 1px dashed #53afd5;
+}
+#angleSlider a:hover {
+	color: #3870b2;
+}
+#angleSlider a.a45 {
+	left: 205px;
+	top: 205px;
+}
+#angleSlider a.a90 {
+	left: 90px;
+	top: 230px;
+}
+#angleSlider a.a135 {
+	left: -40px;
+	top: 205px;
+}
+#angleSlider a.a180 {
+	left: -70px;
+	top: 90px;
+}
+#angleSlider a.a225 {
+	left: -40px;
+	top: -25px;
+}
+#angleSlider a.a270 {
+	left: 80px;
+	top: -55px;
+}
+#angleSlider a.a315 {
+	left: 205px;
+	top: -25px;
+}
+#angleSlider a.a0 {
+	left: 260px;
+	top: 90px;
+}
+
+#angleSlider a sup {
+	font-size: 0.5em;
+	text-decoration: none;
+}
+
+/* ------------ rotate (modern dial) ----------- */
+#tabcontent_rotate #angleSlider {
+	position: relative;
+	left: auto;
+	top: 12px;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 14px;
+}
+#tabcontent_rotate #angleSlider a {
+	display: none;
+}
+#tabcontent_rotate .rotateDialFace {
+	position: relative;
+	width: 248px;
+	height: 248px;
+	border: 2px solid #a5acb2;
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at center, #ececec 0 6px, transparent 7px),
+		radial-gradient(circle at center, #f8f8f8 0%, #efefef 70%, #e6e6e6 100%);
+	box-shadow: inset 0 0 0 1px #d4d4d4;
+	cursor: crosshair;
+	user-select: none;
+}
+#tabcontent_rotate .rotateDialCenter {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 8px;
+	height: 8px;
+	margin: -4px 0 0 -4px;
+	border-radius: 50%;
+	background: #78808a;
+}
+#tabcontent_rotate .rotateDialKnob {
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	margin: -7px 0 0 -7px;
+	border-radius: 50%;
+	border: 1px solid #4d5a69;
+	background: #3870b2;
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75);
+	cursor: grab;
+}
+#tabcontent_rotate .rotateDialKnob.dragging {
+	cursor: grabbing;
+}
+#tabcontent_rotate .rotateSnapDot {
+	position: absolute;
+	width: 6px;
+	height: 6px;
+	margin: -3px 0 0 -3px;
+	border-radius: 50%;
+	background: #aab2bb;
+	pointer-events: none;
+}
+#tabcontent_rotate .rotateFieldRow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-family: Georgia, Garamond, 'Times New Roman', sans;
+	font-size: 16px;
+	color: #69727a;
+}
+#tabcontent_rotate .rotateFieldRow label {
+	margin: 0;
+}
+#tabcontent_rotate #rotateAngleField {
+	width: 56px;
+	text-align: center;
+}
+#tabcontent_rotate .rotateFieldRow .unit {
+	color: #69727a;
+}

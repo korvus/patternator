@@ -1,0 +1,91 @@
+/* ------------ columns ----------- */
+
+.tabContent .cols {
+	position: relative;
+	top: 9px;
+	width: 100%;
+	font-family: Georgia, Garamond, 'Times New Roman', sans;
+	font-size: 16px;
+	color: #69727a;
+}
+input.paramsField {
+	width: 40px;
+	font-family: Georgia, Garamond, 'Times New Roman', sans;
+	font-size: 16px;
+	color: #3870b2;
+	text-align: center;
+	border: 1px solid #a5acb2;
+	background: #fff;
+}
+.tabContent input.invalidValue {
+	border: 1px solid #a5acb2;
+	background: #f1d1d3 !important;
+}
+
+.leftCol,
+.rightCol {
+	position: absolute;
+	width: 290px;
+}
+.tabContent .leftCol {
+	width: 300px;
+	left: 15px;
+	text-align: left;
+}
+
+.tabContent .rightCol {
+	width: 300px;
+	right: 15px;
+	text-align: right;
+}
+
+/* ------------ scrollable pane ----------- */
+
+.samplesPane {
+	position: absolute;
+	left: 10px;
+	top: 75px;
+	width: 604px;
+	height: 250px;
+	overflow: auto;
+	border: 1px solid #ccc;
+}
+.samplesPane a.textureItem {
+	display: block;
+	margin: 5px;
+	float: left;
+	width: 71px;
+	height: 70px;
+	border: 1px solid #ccc;
+}
+.samplesPane a.texture-1 {
+	background-image: url(../bgs/1.png);
+}
+.samplesPane a.texture-2 {
+	background-image: url(../bgs/2.png);
+}
+.samplesPane a.texture-3 {
+	background-image: url(../bgs/3.png);
+}
+.samplesPane a.texture-4 {
+	background-image: url(../bgs/4.png);
+}
+.samplesPane a.texture-5 {
+	background-image: url(../bgs/5.png);
+}
+.samplesPane a.imageItem {
+	display: block;
+	margin: 5px;
+	float: left;
+	width: 71px;
+	height: 70px;
+	border: 1px solid #ccc;
+}
+.samplesPane a:hover {
+	border: 1px solid #555;
+}
+.samplesPane a img {
+	border: none;
+}
+
+/*------------------ misc -------------------*/

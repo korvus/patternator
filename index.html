@@ -7,9 +7,15 @@
 
 <meta name="keywords" content="backgrounds, patterns, tiled textures">
 <meta name="description" content="Web based tiled backgrounds designer, create any pattern your site needs just for few minutes. Adjustable size, pictures, colors, texture and transparency">
+<link id="dynamicFavicon" rel="icon" type="image/svg+xml" href="./assets/images/favicon.php?c=577d5d&v=0">
+<link id="dynamicFaviconShortcut" rel="shortcut icon" type="image/svg+xml" href="./assets/images/favicon.php?c=577d5d&v=0">
 <link href="./assets/style/box.css" rel="stylesheet">
-<link href="./assets/style/designer.css" rel="stylesheet">
-<link href="./assets/style/fixes.css" rel="stylesheet">
+<link href="./assets/style/designer.base.css" rel="stylesheet">
+<link href="./assets/style/designer.left-tabs.css" rel="stylesheet">
+<link href="./assets/style/designer.controls.css" rel="stylesheet">
+<link href="./assets/style/designer.saved.css" rel="stylesheet">
+<link href="./assets/style/designer.common-panes.css" rel="stylesheet">
+<link href="./assets/style/designer.preview-footer.css" rel="stylesheet">
 
 <script language="JavaScript" type="text/javascript">
 var traceIsOn=false;
@@ -34,51 +40,37 @@ var initialValues={
 <script language="JavaScript" type="text/javascript" src="./js/smedias.js.tlchargement"></script>
 </head>
 <body onload="init();"> 
-	<h1 id="logo"><ins>Background patterns designer</ins></h1>
-	<div id="loadingBar" class=" invisible">
-		<div>
-			Just small useful tool to create patterns.<br>
-			Experiment with pictures, colors, textures and transparency to get best result.
-			<img src="assets/images/ui_gif/loadingBar.gif" alt="loading bar">
-			<ins>Preloading. Please wait.</ins>
-		</div>
-		<span></span>
-	</div>
-	<div id="wrapper" class="clearfix ">
-		<div id="left" class="box clearfix">
-			<ins class="t"><ins class="b l"></ins><ins class="b r"></ins></ins>
-			<div class="m clearfix">
-				<ins class="b l"></ins><ins class="b r"></ins>
+	<h1 id="logo">
+		<ins>Background patterns designer</ins>
+		<span>Patternator</span>
+	</h1>
+	<div id="wrapper">
+		<div id="left" class="box">
+			<div class="m">
 				<div class="c content">
 					<div id="nav">
 						<ul>
-							<li id="tab_colors" class="first"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;colors&#39;); return false;"><ins>Colors</ins></a></li>
-							<li id="tab_canvas"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;canvas&#39;); return false;"><ins>Canvas</ins></a></li>
+							<li id="tab_colors" class="first"><a onclick="ControlTabs.select('colors'); return false;"><ins>Colors</ins></a></li>
+							<li id="tab_canvas"><a onclick="ControlTabs.select('canvas'); return false;"><ins>Texture</ins></a></li>
 							<li id="tab_image" class=" active"><span><ins>Image</ins></span></li>
-							<li id="tab_rotate"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;rotate&#39;); return false;"><ins>Rotate</ins></a></li>
-							<li id="tab_saved"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;saved&#39;); return false;"><ins>Saved</ins></a></li>
-							<li id="tab_about"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;about&#39;); return false;"><ins>About</ins></a></li>
+							<li id="tab_rotate"><a onclick="ControlTabs.select('rotate'); return false;"><ins>Rotate</ins></a></li>
+							<li id="tab_saved"><a onclick="ControlTabs.select('saved'); return false;"><ins>Saved</ins></a></li>
+							<li id="tab_about"><a onclick="ControlTabs.select('about'); return false;"><ins>About</ins></a></li>
 						</ul>
 						<ins class="rightBorder"></ins>
 				</div>
 				<div id="tabsHolder">
 					<!-- colors -->
-					<div id="tabcontent_colors" class="tabContent" style="display: none;">
+					<div id="tabcontent_colors" class="tabContent">
 						<div id="colorSamples">
-							<div id="fgColorSample" class="active" style="background-color: rgb(233, 242, 234);" onclick="ControlColors.selectSample(&#39;fgColor&#39;);">
-								<a class="notselected" title="Adjust image color">
-									Foreground color
-									<ins>Change</ins>
-								</a>
+							<div id="fgColorSample" class="active" onclick="ControlColors.selectSample('fgColor');">
+								<span class="colorLabel">Foreground color</span>
 								<span class="selected">
 									<input type="text" id="fgColorVal" size="6" value="43acf3">
 								</span>
 							</div>
-							<div id="bgColorSample" style="background-color: rgb(87, 125, 93);" onclick="ControlColors.selectSample(&#39;bgColor&#39;);">
-								<a class="notselected" title="Adjust bakground color">
-									Background color
-									<ins>Change</ins>
-								</a>
+							<div id="bgColorSample" onclick="ControlColors.selectSample('bgColor');">
+								<span class="colorLabel">Background color</span>
 								<span class="selected">
 									<input type="text" id="bgColorVal" size="6" value="577d5d">
 								</span>
@@ -108,14 +100,14 @@ var initialValues={
 							</div>
 						</div>
 						<div class="samplesPane">
-													<a class="textureItem" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;texture&#39;,&#39;1&#39;); return false;" style="background-image:url(assets/bgs/1.png)"></a>
-													<a class="textureItem" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;texture&#39;,&#39;2&#39;); return false;" style="background-image:url(assets/bgs/2.png)"></a>
-													<a class="textureItem" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;texture&#39;,&#39;3&#39;); return false;" style="background-image:url(assets/bgs/3.png)"></a>
-													<a class="textureItem" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;texture&#39;,&#39;4&#39;); return false;" style="background-image:url(assets/bgs/4.png)"></a>
-													<a class="textureItem" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;texture&#39;,&#39;5&#39;); return false;" style="background-image:url(assets/bgs/5.png)"></a>
-												</div>
+							<a class="textureItem texture-1" onclick="ControlParams.updateParam('texture','1'); return false;"></a>
+							<a class="textureItem texture-2" onclick="ControlParams.updateParam('texture','2'); return false;"></a>
+							<a class="textureItem texture-3" onclick="ControlParams.updateParam('texture','3'); return false;"></a>
+							<a class="textureItem texture-4" onclick="ControlParams.updateParam('texture','4'); return false;"></a>
+							<a class="textureItem texture-5" onclick="ControlParams.updateParam('texture','5'); return false;"></a>
+						</div>
 					</div>
-					<div id="tabcontent_image" class="tabContent" style="display: block;">
+					<div id="tabcontent_image" class="tabContent">
 						<div class="cols">
 							<div class="leftCol">
 								<label class="paramLabel" for="imageScale">Image scale</label>
@@ -129,10 +121,10 @@ var initialValues={
 								<label class="paramLabel">Location</label>
 								<ul id="locModes" class=" locmode_straight">
 									<li class="loc_diagonal">
-										<a href="http://web.archive.org/assets/#diagonal-icons-location" onclick="ControlLoc.switchTo(&#39;diagonal&#39;); return false" title="swich to diagonal mode"><img src="assets/images/ui_gif/bg_locDiagonal.gif"></a><img src="assets/images/ui_gif/bg_locDiagonal.gif">
+										<a href="#diagonal-icons-location" onclick="ControlLoc.switchTo('diagonal'); return false" title="swich to diagonal mode"><img src="assets/images/ui_gif/bg_locDiagonal.gif"></a><img src="assets/images/ui_gif/bg_locDiagonal.gif">
 									</li>
 									<li class="loc_straight">
-										<a href="http://web.archive.org/assets/#straight-icons-location" onclick="ControlLoc.switchTo(&#39;straight&#39;); return false" title="swich to straight mode"><img src="assets/images/ui_gif/bg_locStraight.gif"></a><img src="assets/images/ui_gif/bg_locStraight.gif">
+										<a href="#straight-icons-location" onclick="ControlLoc.switchTo('straight'); return false" title="swich to straight mode"><img src="assets/images/ui_gif/bg_locStraight.gif"></a><img src="assets/images/ui_gif/bg_locStraight.gif">
 									</li>
 								</ul>
 							</div>
@@ -149,92 +141,92 @@ var initialValues={
 													<div class="blockName">
 								Scrolls
 							</div>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-1&#39;); return false;"><img src="illustration/svg_icons/scrolls/1.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-10&#39;); return false;"><img src="illustration/svg_icons/scrolls/10.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-11&#39;); return false;"><img src="illustration/svg_icons/scrolls/11.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-12&#39;); return false;"><img src="illustration/svg_icons/scrolls/12.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-13&#39;); return false;"><img src="illustration/svg_icons/scrolls/13.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-14&#39;); return false;"><img src="illustration/svg_icons/scrolls/14.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-15&#39;); return false;"><img src="illustration/svg_icons/scrolls/15.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-16&#39;); return false;"><img src="illustration/svg_icons/scrolls/16.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-17&#39;); return false;"><img src="illustration/svg_icons/scrolls/17.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-18&#39;); return false;"><img src="illustration/svg_icons/scrolls/18.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-19&#39;); return false;"><img src="illustration/svg_icons/scrolls/19.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-2&#39;); return false;"><img src="illustration/svg_icons/scrolls/2.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-20&#39;); return false;"><img src="illustration/svg_icons/scrolls/20.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-21&#39;); return false;"><img src="illustration/svg_icons/scrolls/21.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-3&#39;); return false;"><img src="illustration/svg_icons/scrolls/3.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-4&#39;); return false;"><img src="illustration/svg_icons/scrolls/4.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-5&#39;); return false;"><img src="illustration/svg_icons/scrolls/5.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-6&#39;); return false;"><img src="illustration/svg_icons/scrolls/6.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-7&#39;); return false;"><img src="illustration/svg_icons/scrolls/7.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-8&#39;); return false;"><img src="illustration/svg_icons/scrolls/8.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;scrolls-9&#39;); return false;"><img src="illustration/svg_icons/scrolls/9.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-1'); return false;"><img src="illustration/svg_icons/scrolls/1.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-10'); return false;"><img src="illustration/svg_icons/scrolls/10.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-11'); return false;"><img src="illustration/svg_icons/scrolls/11.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-12'); return false;"><img src="illustration/svg_icons/scrolls/12.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-13'); return false;"><img src="illustration/svg_icons/scrolls/13.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-14'); return false;"><img src="illustration/svg_icons/scrolls/14.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-15'); return false;"><img src="illustration/svg_icons/scrolls/15.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-16'); return false;"><img src="illustration/svg_icons/scrolls/16.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-17'); return false;"><img src="illustration/svg_icons/scrolls/17.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-18'); return false;"><img src="illustration/svg_icons/scrolls/18.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-19'); return false;"><img src="illustration/svg_icons/scrolls/19.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-2'); return false;"><img src="illustration/svg_icons/scrolls/2.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-20'); return false;"><img src="illustration/svg_icons/scrolls/20.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-21'); return false;"><img src="illustration/svg_icons/scrolls/21.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-3'); return false;"><img src="illustration/svg_icons/scrolls/3.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-4'); return false;"><img src="illustration/svg_icons/scrolls/4.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-5'); return false;"><img src="illustration/svg_icons/scrolls/5.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-6'); return false;"><img src="illustration/svg_icons/scrolls/6.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-7'); return false;"><img src="illustration/svg_icons/scrolls/7.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-8'); return false;"><img src="illustration/svg_icons/scrolls/8.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','scrolls-9'); return false;"><img src="illustration/svg_icons/scrolls/9.svg"></a>
 																				<div class="blockName">
 								Stars
 							</div>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-1&#39;); return false;"><img src="illustration/svg_icons/stars/1.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-2&#39;); return false;"><img src="illustration/svg_icons/stars/2.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-3&#39;); return false;"><img src="illustration/svg_icons/stars/3.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-4&#39;); return false;"><img src="illustration/svg_icons/stars/4.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-5&#39;); return false;"><img src="illustration/svg_icons/stars/5.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-6&#39;); return false;"><img src="illustration/svg_icons/stars/6.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-7&#39;); return false;"><img src="illustration/svg_icons/stars/7.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-8&#39;); return false;"><img src="illustration/svg_icons/stars/8.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;stars-9&#39;); return false;"><img src="illustration/svg_icons/stars/9.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-1'); return false;"><img src="illustration/svg_icons/stars/1.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-2'); return false;"><img src="illustration/svg_icons/stars/2.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-3'); return false;"><img src="illustration/svg_icons/stars/3.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-4'); return false;"><img src="illustration/svg_icons/stars/4.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-5'); return false;"><img src="illustration/svg_icons/stars/5.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-6'); return false;"><img src="illustration/svg_icons/stars/6.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-7'); return false;"><img src="illustration/svg_icons/stars/7.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-8'); return false;"><img src="illustration/svg_icons/stars/8.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','stars-9'); return false;"><img src="illustration/svg_icons/stars/9.svg"></a>
 																				<div class="blockName">
 								Flowers
 							</div>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-1&#39;); return false;"><img src="illustration/svg_icons/flowers/1.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-2&#39;); return false;"><img src="illustration/svg_icons/flowers/2.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-3&#39;); return false;"><img src="illustration/svg_icons/flowers/3.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-4&#39;); return false;"><img src="illustration/svg_icons/flowers/4.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-5&#39;); return false;"><img src="illustration/svg_icons/flowers/5.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-6&#39;); return false;"><img src="illustration/svg_icons/flowers/6.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-7&#39;); return false;"><img src="illustration/svg_icons/flowers/7.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-8&#39;); return false;"><img src="illustration/svg_icons/flowers/8.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;flowers-9&#39;); return false;"><img src="illustration/svg_icons/flowers/9.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-1'); return false;"><img src="illustration/svg_icons/flowers/1.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-2'); return false;"><img src="illustration/svg_icons/flowers/2.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-3'); return false;"><img src="illustration/svg_icons/flowers/3.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-4'); return false;"><img src="illustration/svg_icons/flowers/4.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-5'); return false;"><img src="illustration/svg_icons/flowers/5.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-6'); return false;"><img src="illustration/svg_icons/flowers/6.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-7'); return false;"><img src="illustration/svg_icons/flowers/7.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-8'); return false;"><img src="illustration/svg_icons/flowers/8.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','flowers-9'); return false;"><img src="illustration/svg_icons/flowers/9.svg"></a>
 																				<div class="blockName">
 								Hearts
 							</div>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;hearts-1&#39;); return false;"><img src="illustration/svg_icons/hearts/1.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;hearts-2&#39;); return false;"><img src="illustration/svg_icons/hearts/2.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;hearts-3&#39;); return false;"><img src="illustration/svg_icons/hearts/3.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;hearts-4&#39;); return false;"><img src="illustration/svg_icons/hearts/4.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;hearts-5&#39;); return false;"><img src="illustration/svg_icons/hearts/5.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;hearts-6&#39;); return false;"><img src="illustration/svg_icons/hearts/6.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','hearts-1'); return false;"><img src="illustration/svg_icons/hearts/1.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','hearts-2'); return false;"><img src="illustration/svg_icons/hearts/2.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','hearts-3'); return false;"><img src="illustration/svg_icons/hearts/3.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','hearts-4'); return false;"><img src="illustration/svg_icons/hearts/4.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','hearts-5'); return false;"><img src="illustration/svg_icons/hearts/5.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','hearts-6'); return false;"><img src="illustration/svg_icons/hearts/6.svg"></a>
 																				<div class="blockName">
 								Signs
 							</div>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;signs-1&#39;); return false;"><img src="illustration/svg_icons/signs/1.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;signs-2&#39;); return false;"><img src="illustration/svg_icons/signs/2.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;signs-3&#39;); return false;"><img src="illustration/svg_icons/signs/3.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','signs-1'); return false;"><img src="illustration/svg_icons/signs/1.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','signs-2'); return false;"><img src="illustration/svg_icons/signs/2.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','signs-3'); return false;"><img src="illustration/svg_icons/signs/3.svg"></a>
 																				<div class="blockName">
 								Trees
 							</div>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-1&#39;); return false;"><img src="illustration/svg_icons/trees/1.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-10&#39;); return false;"><img src="illustration/svg_icons/trees/10.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-11&#39;); return false;"><img src="illustration/svg_icons/trees/11.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-2&#39;); return false;"><img src="illustration/svg_icons/trees/2.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-3&#39;); return false;"><img src="illustration/svg_icons/trees/3.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-4&#39;); return false;"><img src="illustration/svg_icons/trees/4.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-5&#39;); return false;"><img src="illustration/svg_icons/trees/5.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-6&#39;); return false;"><img src="illustration/svg_icons/trees/6.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-7&#39;); return false;"><img src="illustration/svg_icons/trees/7.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-8&#39;); return false;"><img src="illustration/svg_icons/trees/8.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;trees-9&#39;); return false;"><img src="illustration/svg_icons/trees/9.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-1'); return false;"><img src="illustration/svg_icons/trees/1.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-10'); return false;"><img src="illustration/svg_icons/trees/10.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-11'); return false;"><img src="illustration/svg_icons/trees/11.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-2'); return false;"><img src="illustration/svg_icons/trees/2.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-3'); return false;"><img src="illustration/svg_icons/trees/3.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-4'); return false;"><img src="illustration/svg_icons/trees/4.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-5'); return false;"><img src="illustration/svg_icons/trees/5.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-6'); return false;"><img src="illustration/svg_icons/trees/6.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-7'); return false;"><img src="illustration/svg_icons/trees/7.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-8'); return false;"><img src="illustration/svg_icons/trees/8.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','trees-9'); return false;"><img src="illustration/svg_icons/trees/9.svg"></a>
 																				<div class="blockName">
 								Miscellaneous
 							</div>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-1&#39;); return false;"><img src="illustration/svg_icons/misc/1.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-2&#39;); return false;"><img src="illustration/svg_icons/misc/2.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-3&#39;); return false;"><img src="illustration/svg_icons/misc/3.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-4&#39;); return false;"><img src="illustration/svg_icons/misc/4.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-5&#39;); return false;"><img src="illustration/svg_icons/misc/5.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-6&#39;); return false;"><img src="illustration/svg_icons/misc/6.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-7&#39;); return false;"><img src="illustration/svg_icons/misc/7.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-8&#39;); return false;"><img src="illustration/svg_icons/misc/8.svg"></a>
-															<a class="imageItem ico" href="http://web.archive.org/assets/#" onclick="ControlParams.updateParam(&#39;image&#39;,&#39;misc-9&#39;); return false;"><img src="illustration/svg_icons/misc/9.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-1'); return false;"><img src="illustration/svg_icons/misc/1.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-2'); return false;"><img src="illustration/svg_icons/misc/2.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-3'); return false;"><img src="illustration/svg_icons/misc/3.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-4'); return false;"><img src="illustration/svg_icons/misc/4.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-5'); return false;"><img src="illustration/svg_icons/misc/5.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-6'); return false;"><img src="illustration/svg_icons/misc/6.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-7'); return false;"><img src="illustration/svg_icons/misc/7.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-8'); return false;"><img src="illustration/svg_icons/misc/8.svg"></a>
+															<a class="imageItem ico" onclick="ControlParams.updateParam('image','misc-9'); return false;"><img src="illustration/svg_icons/misc/9.svg"></a>
 																			</div>
 					</div>
 					<div id="tabcontent_rotate" class="tabContent">
@@ -250,18 +242,18 @@ var initialValues={
 							</div>
 						</div>
 					</div>
-					<div id="tabcontent_saved" class="tabContent" style="display: none;">
+					<div id="tabcontent_saved" class="tabContent">
 						<div id="savedPatternsPane">
 							<p class="savedIntro">Saved pattern links are stored only in this browser.</p>
 							<div id="savedActions">
-								<a href="http://web.archive.org/assets/#" onclick="return ControlShare.saveCurrent();">Save current URL</a>
-								<a href="http://web.archive.org/assets/#" onclick="return ControlShare.clearSaved();">Clear all saved</a>
+								<a onclick="return ControlShare.saveCurrent();">Save current URL</a>
+								<a onclick="return ControlShare.clearSaved();">Clear all saved</a>
 							</div>
 							<p id="savedPatternsEmpty">No saved patterns yet.</p>
 							<ul id="savedPatternsList"></ul>
 						</div>
 					</div>
-					<div id="tabcontent_about" class="tabContent" style="display: none;">
+					<div id="tabcontent_about" class="tabContent">
 						<div id="aboutPane">
 							<p><strong>Patternator</strong> is a remake of the old bgpatterns.com website, originally created by <a href="https://github.com/syavorsky">Sergii Syavorsky</a>.</p>
 							<p>
@@ -278,12 +270,9 @@ var initialValues={
 				</div>
 				</div>
 			</div>
-			<ins class="f"><ins class="b l"></ins><ins class="b r"></ins></ins>
 		</div>
-		<div id="right" class="box clearfix">
-			<ins class="t"><ins class="b l"></ins><ins class="b r"></ins></ins>
-			<div class="m clearfix">
-				<ins class="b l"></ins><ins class="b r"></ins>
+		<div id="right" class="box">
+			<div class="m">
 				<div class="c content">
 					<div id="screenHolder">
 						<div>
@@ -291,9 +280,9 @@ var initialValues={
 						</div>
 					</div>
 					<div id="resultControls">
-						<a href="http://web.archive.org/assets/#" id="resultDownload" onclick="ControlUpload.request(&#39;download&#39;); return false;">Download image</a>
-						<a href="http://web.archive.org/assets/#" id="resultShare" onclick="return ControlShare.shareCurrent();">Share</a>
-						<a href="http://web.archive.org/assets/#" id="resultSave" onclick="return ControlShare.saveCurrent();">Save</a>
+						<a id="resultDownload" onclick="ControlUpload.request('download'); return false;">Download image</a>
+						<a id="resultShare" onclick="return ControlShare.shareCurrent();">Share</a>
+						<a id="resultSave" onclick="return ControlShare.saveCurrent();">Save</a>
 					</div>
 					<div id="progressbar">
 						<span></span>
@@ -302,17 +291,7 @@ var initialValues={
 					</div>
 				</div>
 			</div>
-			<ins class="f"><ins class="b l"></ins><ins class="b r"></ins></ins>
 		</div>
 	</div>
 	
-	
-
-
-
-
-<div style="position: absolute; top: 161px; left: 837px; background: url(&quot;assets/images/live-fields/bg_holder.gif&quot;) 0px 0px no-repeat; width: 200px; height: 30px; display: none; opacity: 1;"><div style="position: relative; left: 10px; top: 13px;"><div style="position: absolute; width: 1px; height: 10px; left: 0px; top: 0px; background: url(&quot;assets/images/live-fields/bg_lcorner.gif&quot;) left center no-repeat;"></div><div style="position: absolute; width: 177px; height: 10px; left: 1px; top: 0px; background: url(&quot;assets/images/live-fields/bg_line.gif&quot;) left center repeat-x;"></div><div style="position: absolute; width: 1px; height: 10px; left: 178px; top: 0px; background: url(&quot;assets/images/live-fields/bg_rcorner.gif&quot;) left center no-repeat;"></div><div style="position: absolute; width: 30px; height: 12px; left: 76px; top: -1px; background: url(&quot;assets/images/live-fields/bg_marker.gif&quot;) left top no-repeat; cursor: url(&quot;assets/images/cursors/cursor_hand.cur&quot;), e-resize;"></div></div></div></body></html>
-
-
-
-
+</body></html>

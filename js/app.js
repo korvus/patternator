@@ -1078,10 +1078,9 @@ var ControlColors={
 	
 	selectSample: function (sampleId){
 		var sample=document.getElementById(sampleId+'Sample');
-		Extensions.addCssClass(sample,'active');
-		
-		if(this.activeSample)
+		if(this.activeSample && this.activeSample!==sample)
 			Extensions.removeCssClass(this.activeSample,'active');
+		Extensions.addCssClass(sample,'active');
 		
 		this.activeSampleId=sampleId;
 		this.activeSample=sample;
@@ -2753,6 +2752,49 @@ var ControlShare={
 		return false;
 	},
 
+	applySavedUrl:function(url){
+		var params=this._parseSavedParams(url);
+
+		try{
+			ControlColors.set({
+				fgColor:params.fgColor,
+				bgColor:params.bgColor
+			});
+		}catch(err){}
+
+		var sliderParams=['canvasWidth','canvasHeight','textureOpacity','imageOpacity','imageScale'];
+		for(var i=0;i<sliderParams.length;i++){
+			var key=sliderParams[i];
+			try{
+				ControlSliders.set(key,params[key]);
+			}catch(err){
+				try{
+					var field=document.getElementById(key);
+					if(field) field.value=params[key];
+					ControlParams.updateParam(key,params[key]);
+				}catch(err2){}
+			}
+		}
+
+		ControlParams.updateParam('texture',params.texture);
+		ControlParams.updateParam('image',params.image);
+		ControlParams.updateParam('angle',params.angle);
+		if(typeof(ControlAngle)!='undefined' && ControlAngle.setValue){
+			ControlAngle.setValue(params.angle);
+		}
+
+		var mode=String(params.imagesLocation||'straight').toLowerCase();
+		mode=(mode==='diagonal')?'diagonal':'straight';
+		if(typeof(ControlLoc)!='undefined' && ControlLoc.switchTo){
+			ControlLoc.switchTo(mode);
+		}else{
+			ControlParams.updateParam('imagesLocation',mode);
+		}
+
+		UrlState.syncNow(ControlParams.getAllParams());
+		return false;
+	},
+
 	renderSavedList:function(){
 		var listNode=document.getElementById('savedPatternsList');
 		var emptyNode=document.getElementById('savedPatternsEmpty');
@@ -2784,6 +2826,14 @@ var ControlShare={
 			thumbLink.href=url;
 			thumbLink.title=url;
 			thumbLink.className='savedThumbLink';
+			thumbLink.onclick=(function(targetUrl){
+				return function(e){
+					if(e && (e.ctrlKey || e.metaKey || e.shiftKey || e.button===1)){
+						return true;
+					}
+					return ControlShare.applySavedUrl(targetUrl);
+				};
+			})(url);
 			thumbLink.appendChild(thumb);
 			li.appendChild(thumbLink);
 
@@ -2945,6 +2995,48 @@ var UrlState={
 	}
 };
 
+var DynamicFavicon={
+	_version:0,
+
+	_sanitizeHex:function(value){
+		var hex=String(value||'').replace(/[^0-9a-fA-F]/g,'').toLowerCase();
+		if(hex.length===3){
+			hex=hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+		}
+		if(hex.length!==6){
+			return 'e9f2ea';
+		}
+		return hex;
+	},
+
+	applyFromColor:function(value){
+		var hex=this._sanitizeHex(value);
+		this._version++;
+		var href='./assets/images/favicon.php?c='+hex+'&v='+this._version;
+		var head=document.getElementsByTagName('head')[0];
+
+		var link=document.getElementById('dynamicFavicon');
+		if(!link){
+			link=document.createElement('link');
+			link.id='dynamicFavicon';
+			link.rel='icon';
+			link.type='image/svg+xml';
+			head.appendChild(link);
+		}
+		link.href=href;
+
+		var shortcut=document.getElementById('dynamicFaviconShortcut');
+		if(!shortcut){
+			shortcut=document.createElement('link');
+			shortcut.id='dynamicFaviconShortcut';
+			shortcut.rel='shortcut icon';
+			shortcut.type='image/svg+xml';
+			head.appendChild(shortcut);
+		}
+		shortcut.href=href;
+	}
+};
+
 //--------------------------- ControlParams.js --------------------------
 
 var ControlParams={
@@ -2992,6 +3084,9 @@ var ControlParams={
 	updateParam:function(paramName,value){
 		var previousValue=this.fields[paramName].value;
 		this.fields[paramName].value=value;
+		if(paramName=='bgColor'){
+			DynamicFavicon.applyFromColor(value);
+		}
 		UrlState.scheduleSync(this.getAllParams());
 		if(!designerIsClosed)
 			this.renderParam(paramName, this.fields[paramName].value)
@@ -3352,8 +3447,8 @@ var designerIsClosed=false;
 function init(){
 	
 	Extensions.removeCssClass(document.getElementById("wrapper"),'invisible');
-	Extensions.addCssClass(document.getElementById("loadingBar"),'invisible');
 	UrlState.applyToInitialValues(initialValues);
+	DynamicFavicon.applyFromColor(initialValues.bgColor.value);
 	document.getElementsByTagName('body')[0].style.background='url(assets/permanents/defaultPattern.jpg) #222';
 	var logo=document.getElementById('logo');
 	if(logo){
@@ -3372,7 +3467,7 @@ function init(){
 	
 	ControlTabs.init({
 		colors:'Colors',
-		canvas:'Canvas',
+		canvas:'Texture',
 		image:'Image',
 		rotate:'Rotate',
 		saved:'Saved',

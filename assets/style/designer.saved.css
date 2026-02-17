@@ -1,0 +1,148 @@
+#savedPatternsPane,
+#aboutPane {
+	padding: 24px 26px;
+	font-family: Georgia, Garamond, 'Times New Roman', sans;
+	color: #444;
+}
+#savedPatternsPane .savedIntro {
+	margin: 0 0 12px 0;
+	font-size: 14px;
+	color: #666;
+}
+#savedActions {
+	margin: 0 0 12px 0;
+}
+#savedActions a {
+	display: inline-block;
+	margin-right: 12px;
+	color: #3870b2;
+	text-decoration: none;
+	border-bottom: 1px dashed #3870b2;
+}
+#savedPatternsEmpty {
+	margin: 8px 0;
+	color: #777;
+}
+#savedPatternsList {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	max-height: 200px;
+	overflow: auto;
+}
+#savedPatternsList li {
+	margin: 0;
+	padding: 8px;
+	background: #fff;
+	border: 1px solid #d7d7d7;
+	box-sizing: border-box;
+}
+#savedPatternsList .savedItem {
+	display: block;
+	text-align: center;
+	position: relative;
+}
+#savedPatternsList .savedThumbLink {
+	display: block;
+	text-decoration: none;
+	margin: 0 auto 6px auto;
+}
+#savedPatternsList .savedThumb {
+	display: block;
+	width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	border: 1px solid #c7c7c7;
+	background: #f7f7f7;
+}
+#savedPatternsList .savedItemActions {
+	display: flex;
+	justify-content: center;
+	gap: 40px;
+	box-sizing: border-box;
+	white-space: nowrap;
+	position: absolute;
+	bottom: 0px;
+	left: 0;
+	padding: 5px 10px 10px 10px;
+	width: 100%;
+	background: rgba(250, 250, 250, 0.5);
+}
+#savedPatternsList .savedItemActions a {
+	margin-left: 0;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
+	text-indent: -9999px;
+	white-space: nowrap;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	opacity: 0.8;
+}
+#savedPatternsList .savedItemActions a:hover {
+	opacity: 1;
+}
+#savedPatternsList .savedItemActions a.savedActionCopy {
+	background-image: url(../images/share.svg);
+}
+#savedPatternsList .savedItemActions a.savedActionRemove {
+	background-image: url(../images/trash.svg);
+}
+#aboutPane p {
+	margin: 0 0 12px 0;
+	line-height: 1.4;
+}
+#aboutPane a {
+	color: #3870b2;
+	text-decoration: none;
+	border-bottom: 1px dashed #3870b2;
+}
+
+/* ------ proportion marker ------- */
+
+.propFlag {
+	position: absolute;
+	width: 70px;
+	opacity: 0.3;
+	_filter: alpha(opacity=30);
+}
+.propFlagActive {
+	opacity: 1;
+	_filter: alpha(opacity=1);
+}
+.propFlag a {
+	display: block;
+	margin: 0 auto;
+	width: 21px;
+	height: 8px;
+	background: url(../images/bg_prop.gif) no-repeat;
+}
+.propFlag ins {
+	position: absolute;
+	display: block;
+	width: 15px;
+	height: 12px;
+	top: 4px;
+	border-top: 1px solid #cccccc;
+}
+.propFlag ins.propFlagL {
+	left: 0;
+	border-left: 1px solid #cccccc;
+}
+.propFlag ins.propFlagR {
+	right: 0;
+	border-right: 1px solid #cccccc;
+}
+
+#canvasPropFlag {
+	position: absolute;
+	left: 55px;
+	top: -18px;
+	width: 60px;
+}
