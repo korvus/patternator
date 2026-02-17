@@ -185,8 +185,13 @@ img{
 					text-decoration:none;
 					color:#ddd;
 				}
-				#fgColorSample{}
+				#fgColorSample{
+					cursor:pointer;
+					cursor:hand;
+				}
 				#bgColorSample{
+					cursor:pointer;
+					cursor:hand;
 					margin-top:22px;
 				}
 				#colorSamples div a.notselected{
@@ -615,6 +620,101 @@ img{
 			#tabcontent_rotate .rotateFieldRow .unit{
 				color:#69727A;
 			}
+			#savedPatternsPane, #aboutPane{
+				padding:24px 26px;
+				font-family:Georgia, Garamond, "Times New Roman", sans;
+				color:#444;
+			}
+			#savedPatternsPane .savedIntro{
+				margin:0 0 12px 0;
+				font-size:14px;
+				color:#666;
+			}
+			#savedActions{
+				margin:0 0 12px 0;
+			}
+			#savedActions a{
+				display:inline-block;
+				margin-right:12px;
+				color:#3870B2;
+				text-decoration:none;
+				border-bottom:1px dashed #3870B2;
+			}
+			#savedPatternsEmpty{
+				margin:8px 0;
+				color:#777;
+			}
+			#savedPatternsList{
+				margin:0;
+				padding:0;
+				list-style:none;
+				display:flex;
+				flex-wrap:wrap;
+				gap:8px;
+				max-height:200px;
+				overflow:auto;
+			}
+			#savedPatternsList li{
+				margin:0;
+				padding:8px;
+				background:#fff;
+				border:1px solid #d7d7d7;
+				box-sizing:border-box;
+			}
+			#savedPatternsList .savedItem{
+				display:block;
+				text-align:center;
+			}
+			#savedPatternsList .savedThumbLink{
+				display:block;
+				text-decoration:none;
+				margin:0 auto 6px auto;
+			}
+			#savedPatternsList .savedThumb{
+				display:block;
+				width:80px;
+				height:80px;
+				margin:0 auto;
+				border:1px solid #c7c7c7;
+				background:#f7f7f7;
+			}
+			#savedPatternsList .savedItemActions{
+				display:flex;
+				justify-content:center;
+				gap:8px;
+				white-space:nowrap;
+			}
+			#savedPatternsList .savedItemActions a{
+				margin-left:0;
+				display:inline-block;
+				width:16px;
+				height:16px;
+				overflow:hidden;
+				text-indent:-9999px;
+				white-space:nowrap;
+				text-decoration:none;
+				background-repeat:no-repeat;
+				background-position:center center;
+				opacity:0.8;
+			}
+			#savedPatternsList .savedItemActions a:hover{
+				opacity:1;
+			}
+			#savedPatternsList .savedItemActions a.savedActionCopy{
+				background-image:url(../images/bg_prop.gif);
+			}
+			#savedPatternsList .savedItemActions a.savedActionRemove{
+				background-image:url(../images/bg_disabled.gif);
+			}
+			#aboutPane p{
+				margin:0 0 12px 0;
+				line-height:1.4;
+			}
+			#aboutPane a{
+				color:#3870B2;
+				text-decoration:none;
+				border-bottom:1px dashed #3870B2;
+			}
 			
 			/* ------ proportion marker ------- */
 			
@@ -813,14 +913,34 @@ img{
 				#resultControls a{
 					display:block;
 					margin:0 0 10px 0;
-					padding:0 0 0 24px;
+					position:relative;
+					padding:0 0 0 30px;
+					min-height:18px;
+					line-height:18px;
 					font-family:Georgia, Garamond, "Times New Roman", sans;
 					font-size:16px;
 					color:#3870B2;
 					text-decoration:none;
 				}
-				#resultDownload{
-					background:url(../images/bg_download.gif) no-repeat;
+				#resultControls a:before{
+					content:'';
+					position:absolute;
+					left:0;
+					top:50%;
+					width:18px;
+					height:18px;
+					margin-top:-9px;
+					background-repeat:no-repeat;
+					background-position:center center;
+				}
+				#resultDownload:before{
+					background-image:url(../images/bg_download.gif);
+				}
+				#resultShare:before{
+					background-image:url(../images/bg_prop.gif);
+				}
+				#resultSave:before{
+					background-image:url(../images/bg_save.gif);
 				}
 
 

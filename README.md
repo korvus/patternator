@@ -1,12 +1,19 @@
 # bgGenerator `prod`
 
-Ce dossier contient une version autonome et nettoyee de l'application, prete pour deploiement.
+This project is a remake of the old [bgpatterns.com](http://www.bgpatterns.com) website, which is no longer online.
+You can still visit the archived version on Wayback Machine:
+https://web.archive.org/web/20080828060206/http://www.bgpatterns.com/
 
-## Lancer en local
+A live version of this repository is available at:
+https://patternator.200.work/
 
-Utiliser un serveur HTTP local (ne pas ouvrir en `file://`).
+This folder contains a standalone, cleaned-up version of the app, ready for deployment.
 
-Exemples:
+## Run Locally
+
+Use a local HTTP server (do not open with `file://`).
+
+Example:
 
 ```powershell
 # Python
@@ -14,35 +21,35 @@ cd D:\sites\bgGenerator\prod
 py -m http.server 8080
 ```
 
-Puis ouvrir:
+Then open:
 
 `http://localhost:8080/`
 
-## Point d'entree
+## Entry Point
 
 - `index.html`
 
-## Arborescence utile
+## Useful Structure
 
 - `index.html`
 - `js/`
-  - `app.js` (logique principale front)
+  - `app.js` (main frontend logic)
 - `assets/`
-  - `bgs/` (textures de fond)
-  - `images/` (assets UI historiques)
-  - `images/ui_gif/` (gifs UI)
+  - `bgs/` (background textures)
+  - `images/` (legacy UI assets)
+  - `images/ui_gif/` (UI GIFs)
   - `style/` (`designer.css`, `box.css`, `fixes.css`)
 - `illustration/`
-  - `svg_icons/` (source prioritaire pour rendu icones)
+  - `svg_icons/` (preferred source for icon rendering)
   - `png_x4/` (fallback)
 
-## Notes runtime
+## Runtime Notes
 
-- Le fond de page est applique automatiquement des qu'un parametre change (mode local, sans backend).
-- `Download image`: exporte localement un PNG du motif courant (fallback sans backend).
-- Le bouton `Save to "My patterns"` a ete retire.
+- The page background updates automatically whenever a parameter changes (local mode, no backend).
+- `Download image`: exports the current pattern as a local PNG (no-backend fallback).
+- The `Save to "My patterns"` button has been removed.
 
 ## Deployment
 
-Pour deployer, copier le contenu de ce dossier `prod` tel quel sur la cible.
-L'application est statique cote front et ne depend pas des dossiers d'archives/recherche presents a la racine du projet original.
+To deploy, copy the content of this `prod` folder as-is to your target.
+The app is fully frontend/static and does not depend on the archive/research folders present at the root of the original project.

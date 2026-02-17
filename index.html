@@ -56,6 +56,8 @@ var initialValues={
 							<li id="tab_canvas"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;canvas&#39;); return false;"><ins>Canvas</ins></a></li>
 							<li id="tab_image" class=" active"><span><ins>Image</ins></span></li>
 							<li id="tab_rotate"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;rotate&#39;); return false;"><ins>Rotate</ins></a></li>
+							<li id="tab_saved"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;saved&#39;); return false;"><ins>Saved</ins></a></li>
+							<li id="tab_about"><a href="http://web.archive.org/assets/#" onclick="ControlTabs.select(&#39;about&#39;); return false;"><ins>About</ins></a></li>
 						</ul>
 						<ins class="rightBorder"></ins>
 				</div>
@@ -248,6 +250,31 @@ var initialValues={
 							</div>
 						</div>
 					</div>
+					<div id="tabcontent_saved" class="tabContent" style="display: none;">
+						<div id="savedPatternsPane">
+							<p class="savedIntro">Saved pattern links are stored only in this browser.</p>
+							<div id="savedActions">
+								<a href="http://web.archive.org/assets/#" onclick="return ControlShare.saveCurrent();">Save current URL</a>
+								<a href="http://web.archive.org/assets/#" onclick="return ControlShare.clearSaved();">Clear all saved</a>
+							</div>
+							<p id="savedPatternsEmpty">No saved patterns yet.</p>
+							<ul id="savedPatternsList"></ul>
+						</div>
+					</div>
+					<div id="tabcontent_about" class="tabContent" style="display: none;">
+						<div id="aboutPane">
+							<p><strong>Patternator</strong> is a remake of the old bgpatterns.com website, originally created by <a href="https://github.com/syavorsky">Sergii Syavorsky</a>.</p>
+							<p>
+								Original site: <a href="http://www.bgpatterns.com" target="_blank" rel="noopener noreferrer">bgpatterns.com</a><br>
+								Web Archive: <a href="https://web.archive.org/web/20080828060206/http://www.bgpatterns.com/" target="_blank" rel="noopener noreferrer">Wayback snapshot (2008)</a><br>
+								Live remake: <a href="https://patternator.200.work/" target="_blank" rel="noopener noreferrer">patternator.200.work</a><br>
+								On GitHub: <a href="https://github.com/korvus/patternator" target="_blank" rel="noopener noreferrer">Patternator</a><br>
+								The official successor to bgpatterns.com, by Sergii Syavorsky: <a href="https://patterninja.com/" target="_blank" rel="noopener noreferrer">Patterninja</a>
+							</p>
+							<p>Use Share to copy a link with your current settings, and Save to keep links locally.</p>
+							<p>When you save a pattern, it is stored locally in your browser only.</p>
+						</div>
+					</div>
 				</div>
 				</div>
 			</div>
@@ -265,6 +292,8 @@ var initialValues={
 					</div>
 					<div id="resultControls">
 						<a href="http://web.archive.org/assets/#" id="resultDownload" onclick="ControlUpload.request(&#39;download&#39;); return false;">Download image</a>
+						<a href="http://web.archive.org/assets/#" id="resultShare" onclick="return ControlShare.shareCurrent();">Share</a>
+						<a href="http://web.archive.org/assets/#" id="resultSave" onclick="return ControlShare.saveCurrent();">Save</a>
 					</div>
 					<div id="progressbar">
 						<span></span>
@@ -283,7 +312,6 @@ var initialValues={
 
 
 <div style="position: absolute; top: 161px; left: 837px; background: url(&quot;assets/images/live-fields/bg_holder.gif&quot;) 0px 0px no-repeat; width: 200px; height: 30px; display: none; opacity: 1;"><div style="position: relative; left: 10px; top: 13px;"><div style="position: absolute; width: 1px; height: 10px; left: 0px; top: 0px; background: url(&quot;assets/images/live-fields/bg_lcorner.gif&quot;) left center no-repeat;"></div><div style="position: absolute; width: 177px; height: 10px; left: 1px; top: 0px; background: url(&quot;assets/images/live-fields/bg_line.gif&quot;) left center repeat-x;"></div><div style="position: absolute; width: 1px; height: 10px; left: 178px; top: 0px; background: url(&quot;assets/images/live-fields/bg_rcorner.gif&quot;) left center no-repeat;"></div><div style="position: absolute; width: 30px; height: 12px; left: 76px; top: -1px; background: url(&quot;assets/images/live-fields/bg_marker.gif&quot;) left top no-repeat; cursor: url(&quot;assets/images/cursors/cursor_hand.cur&quot;), e-resize;"></div></div></div></body></html>
-
 
 
 
