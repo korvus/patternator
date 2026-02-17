@@ -93,6 +93,7 @@ body.blocksFaded #right {
 	font-size: 16px;
 	color: #3870b2;
 	text-decoration: none;
+	cursor: pointer;
 }
 #resultControls a:before {
 	content: '';
