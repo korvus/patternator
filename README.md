@@ -85,6 +85,29 @@ Deployment is done with WinSCP script automation:
 make deploy
 ```
 
+Google Analytics is injected at deploy time from an environment variable.
+`index.html` keeps a `<!-- GA_TAG -->` placeholder in git, and the real tag is
+added only in generated `.deploy/index.html`.
+
+Option 1 (recommended): create a local unversioned file `./.env.deploy`:
+
+```dotenv
+GA_MEASUREMENT_ID=G-V6S1TYT56R
+```
+
+Then deploy normally:
+
+```powershell
+make deploy
+```
+
+Option 2: set env var in current shell, then deploy:
+
+```powershell
+$env:GA_MEASUREMENT_ID='G-V6S1TYT56R'
+make deploy
+```
+
 Files are synchronized using `deploy.txt` to:
 `/home/u372623295/domains/200.work/public_html/patternator`
 

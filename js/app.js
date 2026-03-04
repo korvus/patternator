@@ -2907,9 +2907,15 @@ var UrlState={
 	},
 
 	_getQueryValue:function(params,longKey){
-		if(params.has(longKey)) return params.get(longKey);
 		var shortKey=this.shortKeys[longKey];
-		if(shortKey && params.has(shortKey)) return params.get(shortKey);
+		if(shortKey && params.has(shortKey)){
+			var shortValues=params.getAll(shortKey);
+			return shortValues[shortValues.length-1];
+		}
+		if(params.has(longKey)){
+			var longValues=params.getAll(longKey);
+			return longValues[longValues.length-1];
+		}
 		return null;
 	},
 
@@ -2930,6 +2936,11 @@ var UrlState={
 	_sanitize:function(k,v,fields){
 		if(v===null || typeof(v)==='undefined') return null;
 		v=String(v);
+		if(k==='imagesLocation'){
+			v=v.toLowerCase().replace(/\s+/g,'');
+			if(v!=='diagonal' && v!=='straight') return null;
+			return v;
+		}
 		if(this._isColorKey(k)){
 			v=v.replace(/[^0-9a-fA-F]/g,'').toLowerCase();
 			if(v.length===3){
@@ -3211,8 +3222,16 @@ var ControlLoc={
 		this.switcher=document.getElementById(switcherId);
 		this.cssClassPrefix=cssClassPrefix;
 		this.modes=modes;
-		
-		this.switchTo(selectedMode);
+		var mode=selectedMode;
+		if(!this.modes || typeof(this.modes[mode])==='undefined'){
+			for(var key in this.modes){
+				mode=key;
+				break;
+			}
+		}
+		if(typeof(mode)!=='undefined'){
+			this.switchTo(mode);
+		}
 	},
 	
 	switchTo:function(mode){
@@ -3569,7 +3588,7 @@ function init(){
 			diagonal: 	'diagonal',
 			straight:	'straight'
 		},
-		'diagonal'
+		String(initialValues.imagesLocation.value||'diagonal').toLowerCase()
 	);
 	
 	CanvasTabControls.init();

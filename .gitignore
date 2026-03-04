@@ -16,3 +16,6 @@ npm-debug.log*
 # Env/secrets
 .env
 .env.*
+
+# Generated deploy artifacts
+.deploy/
