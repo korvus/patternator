@@ -146,3 +146,18 @@
 	top: -18px;
 	width: 60px;
 }
+
+@media (max-width: 640px) {
+	#savedPatternsPane,
+	#aboutPane {
+		padding: 16px 14px;
+	}
+
+	#savedPatternsList {
+		max-height: none;
+	}
+
+	#savedPatternsList li {
+		width: calc(50% - 4px);
+	}
+}

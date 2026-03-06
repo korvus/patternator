@@ -8,11 +8,14 @@ param(
 $ErrorActionPreference = "Stop"
 
 if (-not $MeasurementId -and (Test-Path $EnvFilePath)) {
-  $line = Get-Content -Path $EnvFilePath |
-    Where-Object { $_ -match '^\s*GA_MEASUREMENT_ID\s*=' } |
-    Select-Object -First 1
-  if ($line) {
-    $MeasurementId = (($line -split '=', 2)[1]).Trim().Trim("'`"")
+  $envRaw = Get-Content -Path $EnvFilePath -Raw
+  # Support UTF BOM and common .env formats (with optional "export" and quotes).
+  $match = [regex]::Match(
+    $envRaw,
+    "(?im)^(?:\uFEFF)?\s*(?:export\s+)?GA_MEASUREMENT_ID\s*=\s*(.+?)\s*$"
+  )
+  if ($match.Success) {
+    $MeasurementId = $match.Groups[1].Value.Trim().Trim("'`"")
   }
 }
 

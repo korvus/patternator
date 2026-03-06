@@ -89,3 +89,69 @@ input.paramsField {
 }
 
 /*------------------ misc -------------------*/
+
+@media (max-width: 980px) {
+	.tabContent .cols {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px 18px;
+		padding: 0 15px;
+		box-sizing: border-box;
+	}
+
+	.leftCol,
+	.rightCol,
+	.tabContent .leftCol,
+	.tabContent .rightCol {
+		position: static;
+		width: calc(50% - 9px);
+	}
+
+	.samplesPane {
+		position: static;
+		width: auto;
+		height: 260px;
+		margin: 12px 15px 15px;
+		box-sizing: border-box;
+	}
+}
+
+@media (max-width: 640px) {
+	.tabContent .cols {
+		display: block;
+		top: 0;
+		padding: 14px 14px 0;
+	}
+
+	.leftCol,
+	.rightCol,
+	.tabContent .leftCol,
+	.tabContent .rightCol {
+		width: auto;
+	}
+
+	.tabContent .leftCol,
+	.tabContent .rightCol {
+		margin-bottom: 12px;
+		text-align: left;
+	}
+
+	.samplesPane {
+		height: min(48vh, 340px);
+		margin: 10px 14px 14px;
+	}
+
+	.samplesPane a.textureItem,
+	.samplesPane a.imageItem {
+		width: calc(25% - 10px);
+		min-width: 62px;
+		height: 62px;
+		box-sizing: border-box;
+	}
+
+	.samplesPane a.imageItem img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}

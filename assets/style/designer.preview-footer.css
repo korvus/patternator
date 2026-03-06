@@ -209,6 +209,99 @@ body.blocksFaded #right {
 	height: 900px;
 	border: none;
 }
+
+@media (max-width: 980px) {
+	#right {
+		float: none;
+		width: auto;
+		margin-top: 12px;
+	}
+
+	#left,
+	#right {
+		box-shadow: 0 0 5px #000;
+	}
+
+	#screenHolder {
+		left: 0;
+		top: 0;
+		margin: 0 auto;
+	}
+
+	#resultControls {
+		width: auto;
+		margin: 16px 18px 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px 18px;
+	}
+
+	#resultControls a {
+		margin: 0;
+	}
+}
+
+@media (max-width: 640px) {
+	#left .m,
+	#right .m {
+		height: auto !important;
+	}
+
+	#left,
+	#right {
+		box-shadow: none;
+		margin-top: 0;
+	}
+
+	#screenHolder {
+		width: 222px;
+		height: 222px;
+		background-size: contain;
+		margin: 0;
+	}
+
+	#screenHolder div {
+		left: 24px;
+		top: 25px;
+		width: 172px;
+		height: 172px;
+	}
+
+	#screenObj {
+		width: 172px;
+		height: 172px;
+	}
+
+	#progressbar {
+		left: 24px;
+		top: 25px;
+		width: 172px;
+		height: 172px;
+	}
+
+	#resultControls {
+		width: auto;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 10px;
+	}
+
+	#resultControls a {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	#right .c.content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 14px;
+		padding: 0 14px;
+		box-sizing: border-box;
+	}
+}
 /*
      FILE ARCHIVED ON 08:47:30 Sep 06, 2008 AND RETRIEVED FROM THE
      INTERNET ARCHIVE ON 18:12:18 Feb 11, 2026.

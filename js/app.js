@@ -55,6 +55,11 @@ var Extensions={
 	getEventPos:function(e){
 		if (!e)
 			var e = window.event;
+		if (e.touches && e.touches.length){
+			e = e.touches[0];
+		}else if (e.changedTouches && e.changedTouches.length){
+			e = e.changedTouches[0];
+		}
 		if (e.pageX){
 			posx = e.pageX;
 			posy = e.pageY;
@@ -430,18 +435,23 @@ function JSColorPicker(initParams){ //{url skinPath, int x, int y}
 		this._hidePicker();
 		this.trackMouseMove=true;
 		this.parent._recalcColor();
+		if(e && e.preventDefault) e.preventDefault();
 	}
+	this.cp.ontouchstart=this.cp.onmousedown;
 
 	this.cp.onmouseup=function(){
 		this._showPicker()
 		this.trackMouseMove=false;
 		//this.parent._recalcColor();
 	}
+	this.cp.ontouchend=this.cp.onmouseup;
 
 	this.cp.onmousemove=function(e){
 		if(this.trackMouseMove)
 		this._trackMouse(e);
+		if(e && e.preventDefault) e.preventDefault();
 	}
+	this.cp.ontouchmove=this.cp.onmousemove;
 
 	this.cp.onmouseover=function(){
 		if(this.trackMouseMove)
@@ -464,7 +474,9 @@ function JSColorPicker(initParams){ //{url skinPath, int x, int y}
 
 		this.parent.hsvColor.h=Math.round((this.height-posy)/this.height*360);
 		this.parent._recalcColor();
+		if(e && e.preventDefault) e.preventDefault();
 	}
+	this.bar.ontouchstart=this.bar.onclick;
 	try{
 		this.bar.style.cursor='pointer'
 	}catch(err){}
@@ -485,10 +497,14 @@ function JSColorPicker(initParams){ //{url skinPath, int x, int y}
 		window.jscp_activeColorPicker=this.parent;
 		this.parent.defaultMousemoveHandler=document.onmousemove;
 		this.parent.defaultMouseupHandler=document.onmouseup;
+		this.parent.defaultTouchmoveHandler=document.ontouchmove;
+		this.parent.defaultTouchendHandler=document.ontouchend;
 
 		document.onmouseup=function(){
 			document.onmouseup=jscp_activeColorPicker.defaultMouseupHandler;
 			document.onmousemove=jscp_activeColorPicker.defaultMousemoveHandler;
+			document.ontouchend=jscp_activeColorPicker.defaultTouchendHandler;
+			document.ontouchmove=jscp_activeColorPicker.defaultTouchmoveHandler;
 			jscp_activeColorPicker.markerActive=false;
 			try{
 				jscp_activeColorPicker.marker.style.cursor='url('+jscp_activeColorPicker.skinPath+'cursors/cursor_hand.cur), default'
@@ -514,8 +530,13 @@ function JSColorPicker(initParams){ //{url skinPath, int x, int y}
 
 			marker.style.top=posy-Math.round(marker.height/2)+'px';
 			jscp_activeColorPicker.hsvColor.h=Math.round(360-posy/bar.height*360);
+			if(e && e.preventDefault) e.preventDefault();
 		}
+		document.ontouchend=document.onmouseup;
+		document.ontouchmove=document.onmousemove;
+		if(e && e.preventDefault) e.preventDefault();
 	}
+	this.marker.ontouchstart=this.marker.onmousedown;
 
 	this.marker.onmouseup=function(){
 		try{
@@ -731,11 +752,15 @@ function JSHSlider(initParams){
 		window.jssl_activeSlider=this.parent;
 		this.parent.defaultMousemoveHandler=document.onmousemove;
 		this.parent.defaultMouseupHandler=document.onmouseup;
+		this.parent.defaultTouchmoveHandler=document.ontouchmove;
+		this.parent.defaultTouchendHandler=document.ontouchend;
 		
 		document.onmouseup=function(){
 			jssl_activeSlider.onStop();
 			document.onmouseup=jssl_activeSlider.defaultMouseupHandler;
 			document.onmousemove=jssl_activeSlider.defaultMousemoveHandler;
+			document.ontouchend=jssl_activeSlider.defaultTouchendHandler;
+			document.ontouchmove=jssl_activeSlider.defaultTouchmoveHandler;
 			try{
 				jssl_activeSlider.marker.style.cursor='url('+jssl_activeSlider.params.cursorsPath+'cursor_hand.cur), e-resize'
 			}catch(err){}
@@ -743,11 +768,16 @@ function JSHSlider(initParams){
 		
 		document.onmousemove=function(e){
 			jssl_activeSlider._trackMouse(e);
+			if(e && e.preventDefault) e.preventDefault();
 			return false;
 		}
+		document.ontouchend=document.onmouseup;
+		document.ontouchmove=document.onmousemove;
 		
+		if(e && e.preventDefault) e.preventDefault();
 		return false;
 	}
+	this.marker.ontouchstart=this.marker.onmousedown;
 	
 	this.marker.onmouseup=function(){
 		try{
@@ -931,11 +961,15 @@ function JSCSlider(initParams){
 		window.jssl_activeSlider=this.parent;
 		this.parent.defaultMousemoveHandler=document.onmousemove;
 		this.parent.defaultMouseupHandler=document.onmouseup;
+		this.parent.defaultTouchmoveHandler=document.ontouchmove;
+		this.parent.defaultTouchendHandler=document.ontouchend;
 
 		document.onmouseup=function(){
 			jssl_activeSlider.onStop();
 			document.onmouseup=jssl_activeSlider.defaultMouseupHandler;
 			document.onmousemove=jssl_activeSlider.defaultMousemoveHandler;
+			document.ontouchend=jssl_activeSlider.defaultTouchendHandler;
+			document.ontouchmove=jssl_activeSlider.defaultTouchmoveHandler;
 			try{
 				jssl_activeSlider.marker.style.cursor='url('+jssl_activeSlider.params.cursorsPath+'cursor_hand.cur), e-resize'
 			}catch(err){}
@@ -943,11 +977,16 @@ function JSCSlider(initParams){
 
 		document.onmousemove=function(e){
 			jssl_activeSlider._trackMouse(e);
+			if(e && e.preventDefault) e.preventDefault();
 			return false;
 		}
+		document.ontouchend=document.onmouseup;
+		document.ontouchmove=document.onmousemove;
 
+		if(e && e.preventDefault) e.preventDefault();
 		return false;
 	}
+	this.marker.ontouchstart=this.marker.onmousedown;
 
 	this.marker.onmouseup=function(){
 		try{
@@ -980,23 +1019,93 @@ var ControlTabs={
 
 	init:	function(tabs, activeTab){
 		this.tabs=tabs;
+		this.buildMobileAccordion();
 		this.select(activeTab);
 	},
 
+	buildMobileAccordion:function(){
+		var tabsHolder=document.getElementById('tabsHolder');
+		var tabName;
+		if(!tabsHolder){
+			return;
+		}
+		for(tabName in this.tabs){
+			var content=document.getElementById('tabcontent_'+tabName);
+			if(!content){
+				continue;
+			}
+			if(document.getElementById('mobiletab_'+tabName)){
+				continue;
+			}
+			var trigger=document.createElement('button');
+			trigger.type='button';
+			trigger.id='mobiletab_'+tabName;
+			trigger.className='mobileAccordionHeader';
+			trigger.innerHTML='<span>'+this.tabs[tabName]+'</span>';
+			trigger.onclick=(function(name){
+				return function(){
+					if(ControlTabs.active===name){
+						ControlTabs.closeActive();
+						return false;
+					}
+					ControlTabs.select(name);
+					return false;
+				};
+			})(tabName);
+			tabsHolder.insertBefore(trigger, content);
+		}
+	},
+
 	active: 'colors',
+
+	closeActive:function(){
+		var activeTab=document.getElementById('tab_'+this.active);
+		var activeContent=document.getElementById('tabcontent_'+this.active);
+		var activeMobileTab=document.getElementById('mobiletab_'+this.active);
+
+		if(activeTab){
+			activeTab.innerHTML='<a onclick="ControlTabs.select(\''+this.active+'\'); return false;" onmousedown="ControlTabs.select(\''+this.active+'\'); return false;"><ins>'+this.tabs[this.active]+'</ins></a>';
+			activeTab.className=String(activeTab.className).replace(/\s*active/ig,'');
+		}
+		if(activeMobileTab){
+			activeMobileTab.className=String(activeMobileTab.className).replace(/\s*active/ig,'');
+		}
+		if(activeContent){
+			activeContent.style.display='none';
+		}
+		try{
+			ControlSliders.hideSliders();
+		}catch(err){}
+		this.active='';
+	},
 
 	select: function(tabName){
 
 		var activeTab=document.getElementById('tab_'+this.active);
 		var selectedTab=document.getElementById('tab_'+tabName);
+		var activeMobileTab=document.getElementById('mobiletab_'+this.active);
+		var selectedMobileTab=document.getElementById('mobiletab_'+tabName);
 
-		activeTab.innerHTML='<a onmousedown="ControlTabs.select(\''+this.active+'\'); return false;"><ins>'+this.tabs[this.active]+'</ins></a>';
-		activeTab.className=String(activeTab.className).replace(/\s*active/i,'');
+		if(activeTab){
+			activeTab.innerHTML='<a onclick="ControlTabs.select(\''+this.active+'\'); return false;" onmousedown="ControlTabs.select(\''+this.active+'\'); return false;"><ins>'+this.tabs[this.active]+'</ins></a>';
+			activeTab.className=String(activeTab.className).replace(/\s*active/i,'');
+		}
 
-		selectedTab.innerHTML='<span><ins>'+this.tabs[tabName]+'</ins></span>';
-		selectedTab.className=String(selectedTab.className).replace(/\s*active/ig,'')+' active';
+		if(selectedTab){
+			selectedTab.innerHTML='<span><ins>'+this.tabs[tabName]+'</ins></span>';
+			selectedTab.className=String(selectedTab.className).replace(/\s*active/ig,'')+' active';
+		}
 
-		document.getElementById('tabcontent_'+this.active).style.display='none';
+		if(activeMobileTab){
+			activeMobileTab.className=String(activeMobileTab.className).replace(/\s*active/ig,'');
+		}
+		if(selectedMobileTab && !String(selectedMobileTab.className).match(/\sactive/i)){
+			selectedMobileTab.className=selectedMobileTab.className+' active';
+		}
+
+		if(this.active && document.getElementById('tabcontent_'+this.active)){
+			document.getElementById('tabcontent_'+this.active).style.display='none';
+		}
 		document.getElementById('tabcontent_'+tabName).style.display='block';
 
 		this.active=tabName;
@@ -1026,7 +1135,8 @@ var ControlColors={
 	activeSampleId:'',
 	activeField:null,
 	activeSample:null,
-	
+	_resizeHandler:null,
+
 	init: function(params, activeSampleId){
 		if(params && params.holder){
 			var holder=document.getElementById(params.holder);
@@ -1038,6 +1148,16 @@ var ControlColors={
 		if(!this.picker || !this.picker.cpwin){
 			return;
 		}
+		this.layoutPicker();
+		if(this._resizeHandler && window.removeEventListener){
+			window.removeEventListener('resize', this._resizeHandler, false);
+		}
+		this._resizeHandler=function(){
+			ControlColors.layoutPicker();
+		};
+		if(window.addEventListener){
+			window.addEventListener('resize', this._resizeHandler, false);
+		}
 		
 		this.selectSample(activeSampleId);
 		
@@ -1047,6 +1167,25 @@ var ControlColors={
 			ControlParams.updateParam(ControlColors.activeSampleId, color);
 			ControlParams.renderParam(ControlColors.activeSampleId, color);
 		}
+	},
+
+	layoutPicker:function(){
+		if(!this.picker || !this.picker.cpwin || !this.picker.holder){
+			return;
+		}
+		var holder=this.picker.holder;
+		var baseWidth=310;
+		var baseHeight=277;
+		var available=holder.clientWidth||baseWidth;
+		var scale=1;
+		if(available<baseWidth){
+			scale=available/baseWidth;
+		}
+		if(scale>1) scale=1;
+		this.picker.cpwin.style.transformOrigin='top center';
+		this.picker.cpwin.style.transform='scale('+scale+')';
+		this.picker.cpwin.style.margin='0 auto';
+		holder.style.minHeight=Math.ceil(baseHeight*scale)+'px';
 	},
 	
 	initSample:function(sampleId,color){
