@@ -1251,6 +1251,29 @@ var ControlColors={
 		}
 		if(typeof(colors[this.activeSampleId])!='undefined')
 			this.picker.setColor(colors[this.activeSampleId]);
+	},
+
+	swapColors:function(){
+		if(!ControlParams || !ControlParams.fields){
+			return false;
+		}
+
+		var fg=String(ControlParams.fields.fgColor.value||'').replace('#','');
+		var bg=String(ControlParams.fields.bgColor.value||'').replace('#','');
+		if(!fg.match(/^[\da-f]{6}$/i) || !bg.match(/^[\da-f]{6}$/i)){
+			return false;
+		}
+
+		ControlParams.updateParam('fgColor', bg);
+		ControlParams.updateParam('bgColor', fg);
+		this.initSample('fgColor', bg);
+		this.initSample('bgColor', fg);
+		if(this.activeSampleId==='fgColor'){
+			this.picker.setColor(bg);
+		}else if(this.activeSampleId==='bgColor'){
+			this.picker.setColor(fg);
+		}
+		return false;
 	}
 }
 

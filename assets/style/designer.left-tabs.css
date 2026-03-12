@@ -104,15 +104,26 @@
 .mobileAccordionHeader {
 	display: none;
 }
+#tabcontent_colors {
+	display: flex;
+	align-items: flex-start;
+}
 #colorSamples {
+	--color-sample-height: 117px;
+	--color-samples-gap: 24px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--color-samples-gap);
 	float: left;
 	width: 235px;
+	height: calc(var(--color-sample-height) * 2 + var(--color-samples-gap));
 	margin: 40px 10px 0 20px;
 }
 #colorSamples div {
 	position: relative;
 	width: 233px;
-	height: 117px;
+	height: var(--color-sample-height);
 	font-family: Georgia, Garamond, 'Times New Roman', sans;
 	font-size: 16px;
 	text-align: center;
@@ -120,6 +131,37 @@
 	color: #ddd;
 	border: 2px solid transparent;
 	box-sizing: border-box;
+}
+#swapColorsButton {
+	position: absolute;
+	top: calc(var(--color-sample-height) + (var(--color-samples-gap) / 2) - 22px);
+	left: calc(50% - 22px);
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #b7b7b7;
+	border-radius: 999px;
+	background: linear-gradient(180deg, #fbfbfb 0%, #e3e3e3 100%);
+	box-shadow: 0 1px 0 rgb(255 255 255 / 85%) inset, 0 1px 3px rgb(0 0 0 / 12%);
+	cursor: pointer;
+	color: #2f5f9b;
+}
+#swapColorsButton:hover {
+	background: linear-gradient(180deg, #ffffff 0%, #dcdcdc 100%);
+}
+#swapColorsButton:focus-visible {
+	outline: 2px solid #3870b2;
+	outline-offset: 2px;
+}
+.swapColorsIcon {
+	display: block;
+	width: 22px;
+	height: 22px;
 }
 #colorSamples div.active {
 	border-color: #3870b2;
@@ -134,7 +176,7 @@
 	background-color: rgb(87, 125, 93);
 	cursor: pointer;
 	cursor: hand;
-	margin-top: 22px;
+	margin-top: 0;
 }
 #colorSamples div .colorLabel {
 	display: inline-block;
@@ -306,8 +348,26 @@
 		margin: 14px 14px 0;
 	}
 
+	#tabcontent_colors {
+		display: block;
+	}
+
+	#colorSamples {
+		display: block;
+		height: auto;
+	}
+
 	#colorSamples div {
 		width: 100%;
+	}
+
+	#swapColorsButton {
+		position: static;
+		left: auto;
+		top: auto;
+		width: 48px;
+		height: 48px;
+		margin: 12px auto;
 	}
 
 	#colorSamples div .colorLabel {
