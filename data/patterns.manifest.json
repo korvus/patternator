@@ -1,0 +1,499 @@
+{
+    "generatedAt": "2026-03-12T18:13:04+00:00",
+    "defaultImage": "scrolls-20",
+    "categories": [
+        {
+            "id": "flowers",
+            "title": "Flowers",
+            "items": [
+                {
+                    "id": "flowers-1",
+                    "svg": "illustration/svg_icons/flowers/1.svg",
+                    "png": "illustration/png_x4/icos/flowers/1.png"
+                },
+                {
+                    "id": "flowers-2",
+                    "svg": "illustration/svg_icons/flowers/2.svg",
+                    "png": "illustration/png_x4/icos/flowers/2.png"
+                },
+                {
+                    "id": "flowers-3",
+                    "svg": "illustration/svg_icons/flowers/3.svg",
+                    "png": "illustration/png_x4/icos/flowers/3.png"
+                },
+                {
+                    "id": "flowers-4",
+                    "svg": "illustration/svg_icons/flowers/4.svg",
+                    "png": "illustration/png_x4/icos/flowers/4.png"
+                },
+                {
+                    "id": "flowers-5",
+                    "svg": "illustration/svg_icons/flowers/5.svg",
+                    "png": "illustration/png_x4/icos/flowers/5.png"
+                },
+                {
+                    "id": "flowers-6",
+                    "svg": "illustration/svg_icons/flowers/6.svg",
+                    "png": "illustration/png_x4/icos/flowers/6.png"
+                },
+                {
+                    "id": "flowers-7",
+                    "svg": "illustration/svg_icons/flowers/7.svg",
+                    "png": "illustration/png_x4/icos/flowers/7.png"
+                },
+                {
+                    "id": "flowers-8",
+                    "svg": "illustration/svg_icons/flowers/8.svg",
+                    "png": "illustration/png_x4/icos/flowers/8.png"
+                },
+                {
+                    "id": "flowers-9",
+                    "svg": "illustration/svg_icons/flowers/9.svg",
+                    "png": "illustration/png_x4/icos/flowers/9.png"
+                },
+                {
+                    "id": "flowers-flower_01",
+                    "svg": "illustration/svg_icons/flowers/flower_01.svg",
+                    "png": ""
+                },
+                {
+                    "id": "flowers-flower_02",
+                    "svg": "illustration/svg_icons/flowers/flower_02.svg",
+                    "png": ""
+                },
+                {
+                    "id": "flowers-flower_03",
+                    "svg": "illustration/svg_icons/flowers/flower_03.svg",
+                    "png": ""
+                },
+                {
+                    "id": "flowers-flower_simple",
+                    "svg": "illustration/svg_icons/flowers/flower_simple.svg",
+                    "png": ""
+                }
+            ]
+        },
+        {
+            "id": "geomectrics",
+            "title": "Geomectrics",
+            "items": [
+                {
+                    "id": "geomectrics-circle",
+                    "svg": "illustration/svg_icons/geomectrics/circle.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-circlefilled",
+                    "svg": "illustration/svg_icons/geomectrics/circlefilled.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-diagonal",
+                    "svg": "illustration/svg_icons/geomectrics/diagonal.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-rectangle",
+                    "svg": "illustration/svg_icons/geomectrics/rectangle.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-spiral",
+                    "svg": "illustration/svg_icons/geomectrics/spiral.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-square",
+                    "svg": "illustration/svg_icons/geomectrics/square.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-squarefilled",
+                    "svg": "illustration/svg_icons/geomectrics/squarefilled.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-squarestrict",
+                    "svg": "illustration/svg_icons/geomectrics/squarestrict.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-triangle",
+                    "svg": "illustration/svg_icons/geomectrics/triangle.svg",
+                    "png": ""
+                },
+                {
+                    "id": "geomectrics-trianglefilled",
+                    "svg": "illustration/svg_icons/geomectrics/trianglefilled.svg",
+                    "png": ""
+                }
+            ]
+        },
+        {
+            "id": "hearts",
+            "title": "Hearts",
+            "items": [
+                {
+                    "id": "hearts-1",
+                    "svg": "illustration/svg_icons/hearts/1.svg",
+                    "png": "illustration/png_x4/icos/hearts/1.png"
+                },
+                {
+                    "id": "hearts-2",
+                    "svg": "illustration/svg_icons/hearts/2.svg",
+                    "png": "illustration/png_x4/icos/hearts/2.png"
+                },
+                {
+                    "id": "hearts-3",
+                    "svg": "illustration/svg_icons/hearts/3.svg",
+                    "png": "illustration/png_x4/icos/hearts/3.png"
+                },
+                {
+                    "id": "hearts-4",
+                    "svg": "illustration/svg_icons/hearts/4.svg",
+                    "png": "illustration/png_x4/icos/hearts/4.png"
+                },
+                {
+                    "id": "hearts-5",
+                    "svg": "illustration/svg_icons/hearts/5.svg",
+                    "png": "illustration/png_x4/icos/hearts/5.png"
+                },
+                {
+                    "id": "hearts-6",
+                    "svg": "illustration/svg_icons/hearts/6.svg",
+                    "png": "illustration/png_x4/icos/hearts/6.png"
+                }
+            ]
+        },
+        {
+            "id": "misc",
+            "title": "Miscellaneous",
+            "items": [
+                {
+                    "id": "misc-1",
+                    "svg": "illustration/svg_icons/misc/1.svg",
+                    "png": "illustration/png_x4/icos/misc/1.png"
+                },
+                {
+                    "id": "misc-2",
+                    "svg": "illustration/svg_icons/misc/2.svg",
+                    "png": "illustration/png_x4/icos/misc/2.png"
+                },
+                {
+                    "id": "misc-3",
+                    "svg": "illustration/svg_icons/misc/3.svg",
+                    "png": "illustration/png_x4/icos/misc/3.png"
+                },
+                {
+                    "id": "misc-4",
+                    "svg": "illustration/svg_icons/misc/4.svg",
+                    "png": "illustration/png_x4/icos/misc/4.png"
+                },
+                {
+                    "id": "misc-5",
+                    "svg": "illustration/svg_icons/misc/5.svg",
+                    "png": "illustration/png_x4/icos/misc/5.png"
+                },
+                {
+                    "id": "misc-6",
+                    "svg": "illustration/svg_icons/misc/6.svg",
+                    "png": "illustration/png_x4/icos/misc/6.png"
+                },
+                {
+                    "id": "misc-7",
+                    "svg": "illustration/svg_icons/misc/7.svg",
+                    "png": "illustration/png_x4/icos/misc/7.png"
+                },
+                {
+                    "id": "misc-8",
+                    "svg": "illustration/svg_icons/misc/8.svg",
+                    "png": "illustration/png_x4/icos/misc/8.png"
+                },
+                {
+                    "id": "misc-9",
+                    "svg": "illustration/svg_icons/misc/9.svg",
+                    "png": "illustration/png_x4/icos/misc/9.png"
+                },
+                {
+                    "id": "misc-atom",
+                    "svg": "illustration/svg_icons/misc/atom.svg",
+                    "png": ""
+                },
+                {
+                    "id": "misc-atom2",
+                    "svg": "illustration/svg_icons/misc/atom2.svg",
+                    "png": ""
+                },
+                {
+                    "id": "misc-crown",
+                    "svg": "illustration/svg_icons/misc/crown.svg",
+                    "png": ""
+                },
+                {
+                    "id": "misc-euro",
+                    "svg": "illustration/svg_icons/misc/euro.svg",
+                    "png": ""
+                },
+                {
+                    "id": "misc-sun",
+                    "svg": "illustration/svg_icons/misc/sun.svg",
+                    "png": ""
+                },
+                {
+                    "id": "misc-tryzub",
+                    "svg": "illustration/svg_icons/misc/tryzub.svg",
+                    "png": ""
+                },
+                {
+                    "id": "misc-zebra",
+                    "svg": "illustration/svg_icons/misc/zebra.svg",
+                    "png": ""
+                }
+            ]
+        },
+        {
+            "id": "scrolls",
+            "title": "Scrolls",
+            "items": [
+                {
+                    "id": "scrolls-1",
+                    "svg": "illustration/svg_icons/scrolls/1.svg",
+                    "png": "illustration/png_x4/icos/scrolls/1.png"
+                },
+                {
+                    "id": "scrolls-2",
+                    "svg": "illustration/svg_icons/scrolls/2.svg",
+                    "png": "illustration/png_x4/icos/scrolls/2.png"
+                },
+                {
+                    "id": "scrolls-3",
+                    "svg": "illustration/svg_icons/scrolls/3.svg",
+                    "png": "illustration/png_x4/icos/scrolls/3.png"
+                },
+                {
+                    "id": "scrolls-4",
+                    "svg": "illustration/svg_icons/scrolls/4.svg",
+                    "png": "illustration/png_x4/icos/scrolls/4.png"
+                },
+                {
+                    "id": "scrolls-5",
+                    "svg": "illustration/svg_icons/scrolls/5.svg",
+                    "png": "illustration/png_x4/icos/scrolls/5.png"
+                },
+                {
+                    "id": "scrolls-6",
+                    "svg": "illustration/svg_icons/scrolls/6.svg",
+                    "png": "illustration/png_x4/icos/scrolls/6.png"
+                },
+                {
+                    "id": "scrolls-7",
+                    "svg": "illustration/svg_icons/scrolls/7.svg",
+                    "png": "illustration/png_x4/icos/scrolls/7.png"
+                },
+                {
+                    "id": "scrolls-8",
+                    "svg": "illustration/svg_icons/scrolls/8.svg",
+                    "png": "illustration/png_x4/icos/scrolls/8.png"
+                },
+                {
+                    "id": "scrolls-9",
+                    "svg": "illustration/svg_icons/scrolls/9.svg",
+                    "png": "illustration/png_x4/icos/scrolls/9.png"
+                },
+                {
+                    "id": "scrolls-10",
+                    "svg": "illustration/svg_icons/scrolls/10.svg",
+                    "png": "illustration/png_x4/icos/scrolls/10.png"
+                },
+                {
+                    "id": "scrolls-11",
+                    "svg": "illustration/svg_icons/scrolls/11.svg",
+                    "png": "illustration/png_x4/icos/scrolls/11.png"
+                },
+                {
+                    "id": "scrolls-12",
+                    "svg": "illustration/svg_icons/scrolls/12.svg",
+                    "png": "illustration/png_x4/icos/scrolls/12.png"
+                },
+                {
+                    "id": "scrolls-13",
+                    "svg": "illustration/svg_icons/scrolls/13.svg",
+                    "png": "illustration/png_x4/icos/scrolls/13.png"
+                },
+                {
+                    "id": "scrolls-14",
+                    "svg": "illustration/svg_icons/scrolls/14.svg",
+                    "png": "illustration/png_x4/icos/scrolls/14.png"
+                },
+                {
+                    "id": "scrolls-15",
+                    "svg": "illustration/svg_icons/scrolls/15.svg",
+                    "png": "illustration/png_x4/icos/scrolls/15.png"
+                },
+                {
+                    "id": "scrolls-16",
+                    "svg": "illustration/svg_icons/scrolls/16.svg",
+                    "png": "illustration/png_x4/icos/scrolls/16.png"
+                },
+                {
+                    "id": "scrolls-17",
+                    "svg": "illustration/svg_icons/scrolls/17.svg",
+                    "png": "illustration/png_x4/icos/scrolls/17.png"
+                },
+                {
+                    "id": "scrolls-18",
+                    "svg": "illustration/svg_icons/scrolls/18.svg",
+                    "png": "illustration/png_x4/icos/scrolls/18.png"
+                },
+                {
+                    "id": "scrolls-19",
+                    "svg": "illustration/svg_icons/scrolls/19.svg",
+                    "png": "illustration/png_x4/icos/scrolls/19.png"
+                },
+                {
+                    "id": "scrolls-20",
+                    "svg": "illustration/svg_icons/scrolls/20.svg",
+                    "png": "illustration/png_x4/icos/scrolls/20.png"
+                },
+                {
+                    "id": "scrolls-21",
+                    "svg": "illustration/svg_icons/scrolls/21.svg",
+                    "png": "illustration/png_x4/icos/scrolls/21.png"
+                }
+            ]
+        },
+        {
+            "id": "signs",
+            "title": "Signs",
+            "items": [
+                {
+                    "id": "signs-1",
+                    "svg": "illustration/svg_icons/signs/1.svg",
+                    "png": "illustration/png_x4/icos/signs/1.png"
+                },
+                {
+                    "id": "signs-2",
+                    "svg": "illustration/svg_icons/signs/2.svg",
+                    "png": "illustration/png_x4/icos/signs/2.png"
+                },
+                {
+                    "id": "signs-3",
+                    "svg": "illustration/svg_icons/signs/3.svg",
+                    "png": "illustration/png_x4/icos/signs/3.png"
+                }
+            ]
+        },
+        {
+            "id": "stars",
+            "title": "Stars",
+            "items": [
+                {
+                    "id": "stars-1",
+                    "svg": "illustration/svg_icons/stars/1.svg",
+                    "png": "illustration/png_x4/icos/stars/1.png"
+                },
+                {
+                    "id": "stars-2",
+                    "svg": "illustration/svg_icons/stars/2.svg",
+                    "png": "illustration/png_x4/icos/stars/2.png"
+                },
+                {
+                    "id": "stars-3",
+                    "svg": "illustration/svg_icons/stars/3.svg",
+                    "png": "illustration/png_x4/icos/stars/3.png"
+                },
+                {
+                    "id": "stars-4",
+                    "svg": "illustration/svg_icons/stars/4.svg",
+                    "png": "illustration/png_x4/icos/stars/4.png"
+                },
+                {
+                    "id": "stars-5",
+                    "svg": "illustration/svg_icons/stars/5.svg",
+                    "png": "illustration/png_x4/icos/stars/5.png"
+                },
+                {
+                    "id": "stars-6",
+                    "svg": "illustration/svg_icons/stars/6.svg",
+                    "png": "illustration/png_x4/icos/stars/6.png"
+                },
+                {
+                    "id": "stars-7",
+                    "svg": "illustration/svg_icons/stars/7.svg",
+                    "png": "illustration/png_x4/icos/stars/7.png"
+                },
+                {
+                    "id": "stars-8",
+                    "svg": "illustration/svg_icons/stars/8.svg",
+                    "png": "illustration/png_x4/icos/stars/8.png"
+                },
+                {
+                    "id": "stars-9",
+                    "svg": "illustration/svg_icons/stars/9.svg",
+                    "png": "illustration/png_x4/icos/stars/9.png"
+                }
+            ]
+        },
+        {
+            "id": "trees",
+            "title": "Trees",
+            "items": [
+                {
+                    "id": "trees-1",
+                    "svg": "illustration/svg_icons/trees/1.svg",
+                    "png": "illustration/png_x4/icos/trees/1.png"
+                },
+                {
+                    "id": "trees-2",
+                    "svg": "illustration/svg_icons/trees/2.svg",
+                    "png": "illustration/png_x4/icos/trees/2.png"
+                },
+                {
+                    "id": "trees-3",
+                    "svg": "illustration/svg_icons/trees/3.svg",
+                    "png": "illustration/png_x4/icos/trees/3.png"
+                },
+                {
+                    "id": "trees-4",
+                    "svg": "illustration/svg_icons/trees/4.svg",
+                    "png": "illustration/png_x4/icos/trees/4.png"
+                },
+                {
+                    "id": "trees-5",
+                    "svg": "illustration/svg_icons/trees/5.svg",
+                    "png": "illustration/png_x4/icos/trees/5.png"
+                },
+                {
+                    "id": "trees-6",
+                    "svg": "illustration/svg_icons/trees/6.svg",
+                    "png": "illustration/png_x4/icos/trees/6.png"
+                },
+                {
+                    "id": "trees-7",
+                    "svg": "illustration/svg_icons/trees/7.svg",
+                    "png": "illustration/png_x4/icos/trees/7.png"
+                },
+                {
+                    "id": "trees-8",
+                    "svg": "illustration/svg_icons/trees/8.svg",
+                    "png": "illustration/png_x4/icos/trees/8.png"
+                },
+                {
+                    "id": "trees-9",
+                    "svg": "illustration/svg_icons/trees/9.svg",
+                    "png": "illustration/png_x4/icos/trees/9.png"
+                },
+                {
+                    "id": "trees-10",
+                    "svg": "illustration/svg_icons/trees/10.svg",
+                    "png": "illustration/png_x4/icos/trees/10.png"
+                },
+                {
+                    "id": "trees-11",
+                    "svg": "illustration/svg_icons/trees/11.svg",
+                    "png": "illustration/png_x4/icos/trees/11.png"
+                }
+            ]
+        }
+    ]
+}

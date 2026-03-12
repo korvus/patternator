@@ -29,7 +29,8 @@ $excludeDirs = @(
   ".git",
   "node_modules",
   ".deploy",
-  "scripts"
+  "scripts",
+  "admin"
 )
 
 # Copy top-level entries except excluded ones to avoid copying .deploy into itself.

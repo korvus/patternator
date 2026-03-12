@@ -4,6 +4,7 @@
   "private": true,
   "description": "Local lint setup for Patternator static assets",
   "scripts": {
+    "patterns:generate": "node ./scripts/generate-pattern-manifest.mjs",
     "lint": "npm run lint:css && npm run lint:html",
     "lint:css": "stylelint \"assets/style/**/*.css\"",
     "lint:html": "htmlhint \"index.html\""

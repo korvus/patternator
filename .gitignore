@@ -19,3 +19,6 @@ npm-debug.log*
 
 # Generated deploy artifacts
 .deploy/
+
+# Local admin tooling
+admin/

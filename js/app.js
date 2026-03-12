@@ -2166,6 +2166,170 @@ var ControlLoad={
 
 //--------------------------- CanvasScreen.js --------------------------
 
+var PatternLibrary={
+	manifestPath:'./data/patterns.manifest.json',
+	manifest:null,
+	imageMap:null,
+
+	init:function(done){
+		var self=this;
+		this._setStatus('Loading patterns...');
+		this._loadManifest(function(){
+			self.render();
+			self._ensureValidInitialImage();
+			if(done) done();
+		}, function(){
+			self._setStatus('Unable to load patterns manifest.');
+			if(done) done();
+		});
+	},
+
+	_loadManifest:function(onSuccess,onError){
+		var xhr=new XMLHttpRequest();
+		xhr.open('GET',this.manifestPath,true);
+		try{
+			xhr.setRequestHeader('Cache-Control','no-cache');
+		}catch(err){}
+		xhr.onreadystatechange=(function(self){
+			return function(){
+				if(xhr.readyState!==4) return;
+				if(xhr.status>=200 && xhr.status<300){
+					try{
+						var manifest=JSON.parse(xhr.responseText);
+						if(!manifest || !manifest.categories || !manifest.categories.length){
+							throw new Error('Empty manifest');
+						}
+						self.manifest=manifest;
+						self.imageMap=self._buildMapFromManifest(manifest);
+						onSuccess();
+						return;
+					}catch(err){}
+				}
+				if(onError) onError();
+			};
+		})(this);
+		xhr.send(null);
+	},
+
+	_buildMapFromManifest:function(manifest){
+		var map={};
+		var cats=(manifest && manifest.categories)?manifest.categories:[];
+		for(var i=0;i<cats.length;i++){
+			var items=cats[i].items||[];
+			for(var j=0;j<items.length;j++){
+				var item=items[j];
+				if(item && item.id){
+					map[item.id]={
+						svg:item.svg||'',
+						png:item.png||'',
+						gif:item.gif||''
+					};
+				}
+			}
+		}
+		return map;
+	},
+
+	getImageMap:function(){
+		return this.imageMap||{};
+	},
+
+	getDefaultImage:function(){
+		if(this.manifest && this.manifest.defaultImage){
+			return this.manifest.defaultImage;
+		}
+		return initialValues.image.value;
+	},
+
+	hasImage:function(imageId){
+		return !!this.getImageMap()[String(imageId||'')];
+	},
+
+	ensureRuntimeImage:function(){
+		if(this.hasImage(initialValues.image.value)){
+			return;
+		}
+		var fallback=this.getDefaultImage();
+		if(this.hasImage(fallback)){
+			initialValues.image.value=fallback;
+			return;
+		}
+		for(var id in this.getImageMap()){
+			initialValues.image.value=id;
+			return;
+		}
+	},
+
+	_ensureValidInitialImage:function(){
+		this.ensureRuntimeImage();
+	},
+
+	_setStatus:function(message){
+		var node=document.getElementById('patternLibraryStatus');
+		if(node){
+			node.innerHTML=message;
+			node.style.display=message?'block':'none';
+		}
+	},
+
+	_preparePreviewImage:function(img, entry){
+		if(!img) return;
+		img.onerror=function(){
+			if(this._gifFallback){
+				this.src=this._gifFallback;
+				this._gifFallback='';
+			}
+		};
+		img._gifFallback=(entry && (entry.png||entry.gif))?String(entry.png||entry.gif):'';
+	},
+
+	render:function(){
+		var mount=document.getElementById('patternLibraryList');
+		if(!mount){
+			return;
+		}
+		mount.innerHTML='';
+		if(!this.manifest || !this.manifest.categories || !this.manifest.categories.length){
+			this._setStatus('No patterns available.');
+			return;
+		}
+
+		this._setStatus('');
+		var categories=this.manifest.categories;
+		for(var i=0;i<categories.length;i++){
+			var category=categories[i];
+			var items=category.items||[];
+			if(!items.length) continue;
+
+			var title=document.createElement('div');
+			title.className='blockName';
+			title.appendChild(document.createTextNode(category.title||category.id||'Patterns'));
+			mount.appendChild(title);
+
+			for(var j=0;j<items.length;j++){
+				var item=items[j];
+				var anchor=document.createElement('a');
+				anchor.href='#';
+				anchor.className='imageItem ico';
+				anchor.setAttribute('data-image-id',item.id);
+				anchor.onclick=(function(imageId){
+					return function(){
+						ControlParams.updateParam('image',imageId);
+						return false;
+					};
+				})(item.id);
+
+				var img=document.createElement('img');
+				img.alt=item.id;
+				img.src=item.svg||item.png||'';
+				this._preparePreviewImage(img,item);
+				anchor.appendChild(img);
+				mount.appendChild(anchor);
+			}
+		}
+	}
+};
+
 var CanvasScreen={
 	canvas:null,
 	ctx:null,
@@ -2181,7 +2345,10 @@ var CanvasScreen={
 		this.canvas=canvas;
 		this.ctx=canvas.getContext('2d');
 		this._setNoSmooth(this.ctx);
-		this.imageMap=this._buildImageMap();
+		this.imageMap=PatternLibrary.getImageMap();
+		if(!this.imageMap || !this.imageMap[initialValues.image.value]){
+			this.imageMap=this._buildImageMap();
+		}
 		this._applySVGThumbnails();
 		this.imageCache={};
 		this.textureCache={};
@@ -2292,8 +2459,11 @@ var CanvasScreen={
 					var sourceCy=bounds.sy+bounds.sh/2;
 					var fullCx=iconImg.width/2;
 					var fullCy=iconImg.height/2;
-					var offsetX=Math.round((sourceCx-fullCx)*target/maxSide);
-					var offsetY=Math.round((sourceCy-fullCy)*target/maxSide);
+					var rawOffsetX=(sourceCx-fullCx)*target/maxSide;
+					var rawOffsetY=(sourceCy-fullCy)*target/maxSide;
+					// Ignore sub-pixel trim drift on highly symmetric SVGs such as circles.
+					var offsetX=Math.abs(rawOffsetX)<1.25?0:Math.round(rawOffsetX);
+					var offsetY=Math.abs(rawOffsetY)<1.25?0:Math.round(rawOffsetY);
 					var useAlphaOnly=(iconImg.src&&iconImg.src.toLowerCase().indexOf('.svg')!=-1);
 					var tint=this._getTinted(iconImg, bounds, iw, ih, this.state.fgColor, imageId, scale, useAlphaOnly);
 					if(tint){
@@ -2311,9 +2481,10 @@ var CanvasScreen={
 						positions.push({x:Math.round(tw/2),y:Math.round(th/2)});
 					}
 
-					for(var p=0; p<positions.length; p++){
-						var cx=positions[p].x;
-						var cy=positions[p].y;
+					var drawPositions=this._expandWrappedPositions(positions, tw, th, iw, ih);
+					for(var p=0; p<drawPositions.length; p++){
+						var cx=drawPositions[p].x;
+						var cy=drawPositions[p].y;
 						if(angle){
 							tctx.save();
 							tctx.translate(cx, cy);
@@ -2359,12 +2530,21 @@ var CanvasScreen={
 					this._gifFallback='';
 				}
 			};
-			img._gifFallback=entry.gif||'';
+			img._gifFallback=entry.png||entry.gif||'';
 			img.src=entry.svg;
 		}
 	},
 
 		_buildImageMap:function(){
+			var manifestMap=PatternLibrary.getImageMap();
+			var hasManifestEntries=false;
+			for(var manifestId in manifestMap){
+				hasManifestEntries=true;
+				break;
+			}
+			if(hasManifestEntries){
+				return manifestMap;
+			}
 			var map={};
 			var items=document.getElementsByTagName('a');
 			for(var i=0;i<items.length;i++){
@@ -2400,7 +2580,10 @@ var CanvasScreen={
 			var img=new Image();
 			var self=this;
 			img._fallback=fallbackSrc||'';
-			img.onload=function(){self._schedule();};
+			img.onload=function(){
+				self._schedule();
+				ControlUpload.scheduleAutoApply(0);
+			};
 			img.onerror=function(){
 				if(this._fallback && this.src.indexOf(this._fallback)==-1){
 					this.src=this._fallback;
@@ -2415,6 +2598,11 @@ var CanvasScreen={
 		_getIconBounds:function(img, imageId){
 			if(this.iconBoundsCache[imageId]) return this.iconBoundsCache[imageId];
 			var isSvg=(img && img.src && img.src.toLowerCase().indexOf('.svg')!=-1);
+			if(isSvg && this._shouldUseFullSvgBounds(imageId, img)){
+				var fullBounds={sx:0,sy:0,sw:Math.max(1,img.width),sh:Math.max(1,img.height)};
+				this.iconBoundsCache[imageId]=fullBounds;
+				return fullBounds;
+			}
 			var tmp=document.createElement('canvas');
 			tmp.width=img.width;
 			tmp.height=img.height;
@@ -2448,6 +2636,13 @@ var CanvasScreen={
 					if(isSvg){
 						if(ex-sx>2){sx=sx+1;ex=ex-1;}
 						if(ey-sy>2){sy=sy+1;ey=ey-1;}
+						// Keep some breathing room around SVGs so transparent padding
+						// in the source still has an effect after bounds detection.
+						var pad=Math.max(1,Math.round(Math.max(ex-sx+1,ey-sy+1)*0.14));
+						sx=Math.max(0,sx-pad);
+						sy=Math.max(0,sy-pad);
+						ex=Math.min(tmp.width-1,ex+pad);
+						ey=Math.min(tmp.height-1,ey+pad);
 					}
 				}
 			}catch(err){
@@ -2456,6 +2651,18 @@ var CanvasScreen={
 			var bounds={sx:sx,sy:sy,sw:Math.max(1,ex-sx+1),sh:Math.max(1,ey-sy+1)};
 			this.iconBoundsCache[imageId]=bounds;
 			return bounds;
+		},
+
+		_shouldUseFullSvgBounds:function(imageId, img){
+			var entry=this.imageMap&&imageId?this.imageMap[imageId]:null;
+			if(entry && !entry.png){
+				return true;
+			}
+			// Keep full bounds for small modern SVGs without legacy FFDec framing.
+			if(img && img.width && img.height && img.width<=64 && img.height<=64){
+				return true;
+			}
+			return false;
 		},
 
 		_getTinted:function(img, bounds, w, h, color, imageId, scale, useAlphaOnly){
@@ -2569,7 +2776,7 @@ var CanvasScreen={
 			ctx.msImageSmoothingEnabled=false;
 		},
 
-	_clampInt:function(v,min,max){
+		_clampInt:function(v,min,max){
 		var n=parseInt(v,10);
 		if(isNaN(n)) n=min;
 		if(n<min) n=min;
@@ -2577,16 +2784,41 @@ var CanvasScreen={
 		return n;
 	},
 
+	_expandWrappedPositions:function(basePositions, tw, th, iw, ih){
+		var out=[];
+		var seen={};
+		var rx=Math.max(1,Math.ceil(iw/Math.max(1,tw)));
+		var ry=Math.max(1,Math.ceil(ih/Math.max(1,th)));
+		for(var i=0;i<basePositions.length;i++){
+			var base=basePositions[i];
+			for(var ox=-rx;ox<=rx;ox++){
+				for(var oy=-ry;oy<=ry;oy++){
+					var x=base.x+ox*tw;
+					var y=base.y+oy*th;
+					// Skip copies that cannot intersect the tile at all.
+					if(x+iw/2<0 || x-iw/2>tw || y+ih/2<0 || y-ih/2>th){
+						continue;
+					}
+					var key=x+','+y;
+					if(seen[key]) continue;
+					seen[key]=true;
+					out.push({x:x,y:y});
+				}
+			}
+		}
+		return out;
+	},
+
 	_normalizeHex:function(val){
 		var s=String(val).replace(/[^0-9a-fA-F]/g,'');
 		if(s.length==3){
 			s=s[0]+s[0]+s[1]+s[1]+s[2]+s[2];
+			}
+			while(s.length<6){
+				s=s+'0';
+			}
+			return s.substr(0,6).toLowerCase();
 		}
-		while(s.length<6){
-			s=s+'0';
-		}
-		return s.substr(0,6).toLowerCase();
-	}
 };
 
 //--------------------------- ControlShare.js --------------------------
@@ -3614,137 +3846,137 @@ function ftrace(str,clear){
 var designerIsClosed=false;
 
 function init(){
-	
-	Extensions.removeCssClass(document.getElementById("wrapper"),'invisible');
-	UrlState.applyToInitialValues(initialValues);
-	DynamicFavicon.applyFromColor(initialValues.bgColor.value);
-	DynamicUi.applyRangeAccentFromBg(initialValues.bgColor.value);
-	document.getElementsByTagName('body')[0].style.background='url(assets/permanents/defaultPattern.jpg) #222';
-	var logo=document.getElementById('logo');
-	if(logo){
-		logo.onclick=function(){
-			var body=document.getElementsByTagName('body')[0];
-			if(String(body.className||'').indexOf('blocksFaded')!=-1){
-				Extensions.removeCssClass(body,'blocksFaded');
-			}else{
-				Extensions.addCssClass(body,'blocksFaded');
-			}
-			return false;
-		};
-	}
-	
-	//------------------------ init tabs -----------------------
-	
-	ControlTabs.init({
-		colors:'Colors',
-		canvas:'Texture',
-		image:'Image',
-		rotate:'Rotate',
-		saved:'Saved',
-		about:'About'
-	},'image');
-	
-	//------------------- init color picker --------------------
-	
-	ControlColors.init({
-		skinPath:'assets/images/',
-		holder:'cpHolder',
-		color:initialValues.fgColor.value
-	},'fgColor');
-	
-	ControlColors.initSample('fgColor',initialValues.fgColor.value);
-	ControlColors.initSample('bgColor',initialValues.bgColor.value);
-	
-	//------------------- init params syncer --------------------
-	
-	ControlParams.init(initialValues);
-		//------------------- init params fields --------------------
-	
-	ControlSliders.init({
-		skinPath:'assets/images/live-fields/',
-		cursorsPath:'assets/images/cursors/',
-		holderWidth:200,
-		holderHeight:30,
-		boxWidth:179,
-		boxHeight:10,
-		cornerWidth:1,
-		markerWidth:30,
-		markerHeight:12,
-		x:10,
-		y:13
-	},initialValues);
-	
-	//------------------- init angle slider --------------------
-	
-	ControlAngle.init({
-		holderId:'angleSlider',
-		radius:104,
-		markerWidth:30,
-		markerHeight:30,
-		skinPath:'assets/images/cslider/',
-		cursorsPath:'assets/images/cursors/',
-		fieldClassName:'paramsField',
-		value:initialValues.angle.value
-	});
-	
-	//------------------- init upload controller ---------------
-	
-	ControlUpload.init(
-		{
-			apply:{
-				ajax:	true,
-				URL:	''
+
+	PatternLibrary.init(function(){
+		Extensions.removeCssClass(document.getElementById("wrapper"),'invisible');
+		UrlState.applyToInitialValues(initialValues);
+		PatternLibrary.ensureRuntimeImage();
+		DynamicFavicon.applyFromColor(initialValues.bgColor.value);
+		DynamicUi.applyRangeAccentFromBg(initialValues.bgColor.value);
+		document.getElementsByTagName('body')[0].style.background='url(assets/permanents/defaultPattern.jpg) #222';
+		var logo=document.getElementById('logo');
+		if(logo){
+			logo.onclick=function(){
+				var body=document.getElementsByTagName('body')[0];
+				if(String(body.className||'').indexOf('blocksFaded')!=-1){
+					Extensions.removeCssClass(body,'blocksFaded');
+				}else{
+					Extensions.addCssClass(body,'blocksFaded');
+				}
+				return false;
+			};
+		}
+
+		//------------------------ init tabs -----------------------
+
+		ControlTabs.init({
+			colors:'Colors',
+			canvas:'Texture',
+			image:'Image',
+			rotate:'Rotate',
+			saved:'Saved',
+			about:'About'
+		},'image');
+
+		//------------------- init color picker --------------------
+
+		ControlColors.init({
+			skinPath:'assets/images/',
+			holder:'cpHolder',
+			color:initialValues.fgColor.value
+		},'fgColor');
+
+		ControlColors.initSample('fgColor',initialValues.fgColor.value);
+		ControlColors.initSample('bgColor',initialValues.bgColor.value);
+
+		//------------------- init params syncer --------------------
+
+		ControlParams.init(initialValues);
+			//------------------- init params fields --------------------
+
+		ControlSliders.init({
+			skinPath:'assets/images/live-fields/',
+			cursorsPath:'assets/images/cursors/',
+			holderWidth:200,
+			holderHeight:30,
+			boxWidth:179,
+			boxHeight:10,
+			cornerWidth:1,
+			markerWidth:30,
+			markerHeight:12,
+			x:10,
+			y:13
+		},initialValues);
+
+		//------------------- init angle slider --------------------
+
+		ControlAngle.init({
+			holderId:'angleSlider',
+			radius:104,
+			markerWidth:30,
+			markerHeight:30,
+			skinPath:'assets/images/cslider/',
+			cursorsPath:'assets/images/cursors/',
+			fieldClassName:'paramsField',
+			value:initialValues.angle.value
+		});
+
+		//------------------- init upload controller ---------------
+
+		ControlUpload.init(
+			{
+				apply:{
+					ajax:	true,
+					URL:	''
+				},
+				download:{
+					ajax:	true,
+					URL:	''
+				}
 			},
-			download:{
-				ajax:	true,
-				URL:	''
-			}
-		},
-		'progressbar'
-	);
-	
-	//------------------- init upload controller ---------------
-	
-	ControlLoad.init('', 'progressbar');
-	
-	//-------------------- init layout -----------------------
-	
-	ControlWindow.init(
-		'wrapper',
-		'closed',
-		'wmodeSwitcherTitle',
-		'Hide designer',
-		'Show designer',
-		true
-	);
-	
-	//-------------------- init location modes -----------------------
-	
-	ControlLoc.init(
-		'locModes',	
-		'locmode_',
-		{
-			diagonal: 	'diagonal',
-			straight:	'straight'
-		},
-		String(initialValues.imagesLocation.value||'diagonal').toLowerCase()
-	);
-	
-	CanvasTabControls.init();
-	ImageTabControls.init();
-	UrlState.syncNow(ControlParams.getAllParams());
-	
-	//-----------------performing the magick :)-----------------
-	
-	setTimeout(function(){
-		renderAllParams();
-		// If URL carries a shared state, auto-apply it as page background.
-		if(UrlState.hasUrlParams()){
+			'progressbar'
+		);
+
+		//------------------- init upload controller ---------------
+
+		ControlLoad.init('', 'progressbar');
+
+		//-------------------- init layout -----------------------
+
+		ControlWindow.init(
+			'wrapper',
+			'closed',
+			'wmodeSwitcherTitle',
+			'Hide designer',
+			'Show designer',
+			true
+		);
+
+		//-------------------- init location modes -----------------------
+
+		ControlLoc.init(
+			'locModes',	
+			'locmode_',
+			{
+				diagonal: 	'diagonal',
+				straight:	'straight'
+			},
+			String(initialValues.imagesLocation.value||'diagonal').toLowerCase()
+		);
+
+		CanvasTabControls.init();
+		ImageTabControls.init();
+		UrlState.syncNow(ControlParams.getAllParams());
+
+		//-----------------performing the magick :)-----------------
+
+		setTimeout(function(){
+			renderAllParams();
 			setTimeout(function(){
 				ControlUpload._applyBgFromCanvas();
 			},140);
-		}
-	},100)
+		},100);
+	});
 }
 }
 

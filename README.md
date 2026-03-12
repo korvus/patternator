@@ -47,6 +47,8 @@ php -S localhost:8080
 - `index.html`
 - `js/`
   - `app.js` (main frontend logic: controls, render, URL state, save/share, dynamic favicon update)
+- `data/`
+  - `patterns.manifest.json` (generated catalog used by the Image tab)
 - `assets/`
   - `bgs/` (texture tiles)
   - `images/` (UI assets + favicon resources)
@@ -61,6 +63,31 @@ php -S localhost:8080
 - `illustration/`
   - `svg_icons/` (primary icon source)
   - `png_x4/` (fallback source)
+- `scripts/`
+  - `generate-pattern-manifest.mjs` (rebuilds the image-pattern catalog from the filesystem)
+
+## Adding New Patterns
+
+1. Add the new SVG files into `illustration/svg_icons/<category>/`.
+2. Add matching PNG fallbacks into `illustration/png_x4/icos/<category>/` when available.
+3. Regenerate the manifest:
+
+```powershell
+cd D:\sites\bgGenerator\prod
+npm run patterns:generate
+```
+
+The Image tab reads `data/patterns.manifest.json`, so new patterns appear without editing `index.html`.
+
+## Local Admin Page
+
+There is also a local-only PHP admin:
+
+- `admin/index.php`
+- `admin/assets/admin.css`
+
+The whole `admin/` folder is intentionally ignored by Git and excluded from deployment.
+Open it through your local PHP/XAMPP server and use it to upload SVG/PNG files and regenerate `data/patterns.manifest.json`.
 
 ## Linting and Formatting
 

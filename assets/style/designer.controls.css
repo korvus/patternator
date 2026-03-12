@@ -19,6 +19,12 @@
 	margin: 5px 0 5px;
 }
 
+.patternLibraryStatus {
+	margin: 12px 10px;
+	color: #666;
+	font-size: 12px;
+}
+
 #tabcontent_image .leftCol,
 #tabcontent_image .middleCol,
 #tabcontent_image .rightCol {

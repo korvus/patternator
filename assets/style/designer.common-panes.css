@@ -74,18 +74,33 @@ input.paramsField {
 	background-image: url(../bgs/5.png);
 }
 .samplesPane a.imageItem {
-	display: block;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	margin: 5px;
 	float: left;
 	width: 71px;
 	height: 70px;
 	border: 1px solid #ccc;
+	overflow: hidden;
 }
 .samplesPane a:hover {
 	border: 1px solid #555;
 }
 .samplesPane a img {
 	border: none;
+	display: block;
+	width: 100%;
+	height: 100%;
+	max-width: calc(100% - 8px);
+	max-height: calc(100% - 8px);
+	margin: 0;
+}
+
+#patternLibraryList::after {
+	content: '';
+	display: block;
+	clear: both;
 }
 
 /*------------------ misc -------------------*/
@@ -150,8 +165,10 @@ input.paramsField {
 	}
 
 	.samplesPane a.imageItem img {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: calc(100% - 8px);
+		max-height: calc(100% - 8px);
 	}
 }
