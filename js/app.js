@@ -2170,44 +2170,71 @@ var PatternLibrary={
 	manifestPath:'./data/patterns.manifest.json',
 	manifest:null,
 	imageMap:null,
+	lastError:'',
 
 	init:function(done){
 		var self=this;
+		this.lastError='';
 		this._setStatus('Loading patterns...');
 		this._loadManifest(function(){
 			self.render();
 			self._ensureValidInitialImage();
 			if(done) done();
 		}, function(){
-			self._setStatus('Unable to load patterns manifest.');
+			self._setStatus(self.lastError||'Unable to load patterns manifest.');
 			if(done) done();
 		});
 	},
 
 	_loadManifest:function(onSuccess,onError){
 		var xhr=new XMLHttpRequest();
+		var settled=false;
+		var self=this;
+		var finishWithError=function(message){
+			if(settled) return;
+			settled=true;
+			self.lastError=message||'Unable to load patterns manifest.';
+			if(onError) onError();
+		};
+		var finishWithSuccess=function(manifest){
+			if(settled) return;
+			settled=true;
+			self.lastError='';
+			self.manifest=manifest;
+			self.imageMap=self._buildMapFromManifest(manifest);
+			onSuccess();
+		};
 		xhr.open('GET',this.manifestPath,true);
+		xhr.timeout=12000;
 		try{
 			xhr.setRequestHeader('Cache-Control','no-cache');
 		}catch(err){}
-		xhr.onreadystatechange=(function(self){
-			return function(){
-				if(xhr.readyState!==4) return;
-				if(xhr.status>=200 && xhr.status<300){
-					try{
-						var manifest=JSON.parse(xhr.responseText);
-						if(!manifest || !manifest.categories || !manifest.categories.length){
-							throw new Error('Empty manifest');
-						}
-						self.manifest=manifest;
-						self.imageMap=self._buildMapFromManifest(manifest);
-						onSuccess();
-						return;
-					}catch(err){}
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState!==4 || settled) return;
+			if(xhr.status>=200 && xhr.status<300){
+				try{
+					var manifest=JSON.parse(xhr.responseText);
+					if(!manifest || !manifest.categories || !manifest.categories.length){
+						throw new Error('Empty manifest');
+					}
+					finishWithSuccess(manifest);
+					return;
+				}catch(err){
+					finishWithError('Invalid patterns manifest.');
+					return;
 				}
-				if(onError) onError();
-			};
-		})(this);
+			}
+			finishWithError('Unable to load patterns manifest (HTTP '+xhr.status+').');
+		};
+		xhr.onerror=function(){
+			finishWithError('Unable to load patterns manifest (network error).');
+		};
+		xhr.ontimeout=function(){
+			finishWithError('Pattern loading timed out.');
+		};
+		xhr.onabort=function(){
+			finishWithError('Pattern loading was aborted.');
+		};
 		xhr.send(null);
 	},
 
