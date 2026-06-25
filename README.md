@@ -1,144 +1,91 @@
-# bgGenerator `prod`
+# Patternator
 
-This project is a modernized remake of the old [bgpatterns.com (now a new site)](http://www.bgpatterns.com) interface.
-Archived reference:
-https://web.archive.org/web/20080828060206/http://www.bgpatterns.com/
+Modernized remake of the old [bgpatterns.com](http://www.bgpatterns.com) interface
+([archived reference](https://web.archive.org/web/20080828060206/http://www.bgpatterns.com/)).
 
-Live deployment:
-https://patternator.200.work/
+**Live:** https://patternator.200.work
 
-This `prod` folder is the deployable app.
+A single-page generator for seamless background patterns: adjust icons, colors,
+textures, scale, rotation and opacity, preview live on canvas, and export the tile as PNG.
 
-## Current Behavior
+## Behavior
 
 - Single-page pattern editor (Colors, Texture, Image, Rotate, Saved, About).
-- Parameters are applied in real time on the canvas preview.
-- URL query string is synced with current settings (`cw`, `ch`, `tx`, `to`, `im`, `ag`, `is`, `io`, `il`, `fg`, `bg`).
-- Saved patterns are stored in `localStorage` and can be reapplied without page reload.
+- Parameters applied in real time on the canvas preview.
+- URL query string synced with current settings (`cw`, `ch`, `tx`, `to`, `im`, `ag`,
+  `is`, `io`, `il`, `fg`, `bg`).
+- Saved patterns stored in `localStorage`, reapplied without page reload.
 - `Download image` exports the generated tile as a local PNG.
-- Favicon is dynamic and driven by the current **background color** via `assets/images/favicon.php?c=<hex>`.
+- Dynamic favicon driven by the current **background color** via
+  `assets/images/favicon.php?c=<hex>` (rendered server-side on Hostinger).
 
-## Run Locally
+## Run locally
 
-Use HTTP (not `file://`).
+Use HTTP (not `file://`). Run with PHP so the dynamic favicon works:
 
-```powershell
-cd D:\sites\bgGenerator\prod
-py -m http.server 8080
-```
-
-Open:
-`http://localhost:8080/`
-
-Note:
-- If you want the dynamic PHP favicon to work locally, run with PHP instead:
-
-```powershell
-cd D:\sites\bgGenerator\prod
+```bash
 php -S localhost:8080
 ```
 
-## Entry Point
+Without PHP the site still works, only the dynamic favicon is inert:
 
-- `index.html`
-
-## Project Structure
-
-- `index.html`
-- `js/`
-  - `app.js` (main frontend logic: controls, render, URL state, save/share, dynamic favicon update)
-- `data/`
-  - `patterns.manifest.json` (generated catalog used by the Image tab)
-- `assets/`
-  - `bgs/` (texture tiles)
-  - `images/` (UI assets + favicon resources)
-  - `style/`
-    - `box.css` (panel container styles)
-    - `designer.base.css`
-    - `designer.left-tabs.css`
-    - `designer.controls.css`
-    - `designer.saved.css`
-    - `designer.common-panes.css`
-    - `designer.preview-footer.css`
-- `illustration/`
-  - `svg_icons/` (primary icon source)
-  - `png_x4/` (fallback source)
-- `scripts/`
-  - `generate-pattern-manifest.mjs` (rebuilds the image-pattern catalog from the filesystem)
-
-## Adding New Patterns
-
-1. Add the new SVG files into `illustration/svg_icons/<category>/`.
-2. Add matching PNG fallbacks into `illustration/png_x4/icos/<category>/` when available.
-3. Regenerate the manifest:
-
-```powershell
-cd D:\sites\bgGenerator\prod
-npm run patterns:generate
+```bash
+python3 -m http.server 8080
 ```
+
+Open `http://localhost:8080/`.
+
+## Structure
+
+- `index.html` — entry point (head, og/twitter meta, `<!-- GA_TAG -->` placeholder).
+- `js/app.js` — front logic (controls, canvas render, URL state, save/share, favicon).
+- `data/patterns.manifest.json` — generated image catalog (Image tab).
+- `assets/` — `bgs/` (texture tiles), `images/` (UI + `favicon.php`), `style/` (CSS split per pane).
+- `illustration/` — `svg_icons/` (primary source) + `png_x4/` (fallback).
+- `scripts/generate-pattern-manifest.mjs` — rebuilds the catalog from the filesystem.
+
+### Adding patterns
+
+1. Add SVGs to `illustration/svg_icons/<category>/` and PNG fallbacks to
+   `illustration/png_x4/icos/<category>/`.
+2. Regenerate the manifest:
+
+   ```bash
+   npm run patterns:generate
+   ```
 
 The Image tab reads `data/patterns.manifest.json`, so new patterns appear without editing `index.html`.
 
-## Local Admin Page
+## Linting
 
-There is also a local-only PHP admin:
-
-- `admin/index.php`
-- `admin/assets/admin.css`
-
-The whole `admin/` folder is intentionally ignored by Git and excluded from deployment.
-Open it through your local PHP/XAMPP server and use it to upload SVG/PNG files and regenerate `data/patterns.manifest.json`.
-
-## Linting and Formatting
-
-Local tooling is configured in this folder:
-
-- `npm run lint` (CSS + HTML)
-- `npm run lint:css`
-- `npm run lint:html`
-
-Config files:
-
-- `.stylelintrc.cjs`
-- `.htmlhintrc`
-- `.prettierrc`
-- `.editorconfig`
-
-## Deployment
-
-Deployment is done with WinSCP script automation:
-
-```powershell
-make deploy
+```bash
+npm ci
+npm run lint        # CSS (stylelint) + HTML (htmlhint)
 ```
 
-Google Analytics is injected at deploy time from an environment variable.
-`index.html` keeps a `<!-- GA_TAG -->` placeholder in git, and the real tag is
-added only in generated `.deploy/index.html`.
+Config: `.stylelintrc.cjs`, `.htmlhintrc`, `.prettierrc`, `.editorconfig`. Dev-only tooling —
+it is never deployed to the site.
 
-Option 1 (recommended): create a local unversioned file `./.env.deploy`:
+## Deployment (CI/CD)
 
-```dotenv
-GA_MEASUREMENT_ID=G-V6S1TYT56R
-```
+Automated via GitHub Actions (`.github/workflows/deploy.yml`) on push — standard 200.work
+FTPS pipeline:
 
-Then deploy normally:
+| Branch | Target | URL |
+|--------|--------|-----|
+| `main` | prod | https://patternator.200.work |
+| `dev`  | staging (Basic Auth) | https://patternator.200.work/dev/ |
 
-```powershell
-make deploy
-```
+No build step — the repo files are deployed as-is over FTPS (meta-files excluded). At deploy
+time the `<!-- GA_TAG -->` placeholder is replaced with the Google Analytics snippet built
+from the `GA_MEASUREMENT_ID` repo variable (nothing committed).
 
-Option 2: set env var in current shell, then deploy:
+Workflow: push to `dev` → check staging → merge `dev` into `main` for production.
 
-```powershell
-$env:GA_MEASUREMENT_ID='G-V6S1TYT56R'
-make deploy
-```
+**Repo secrets:** `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `DEV_USER`, `DEV_PASS`.
+**Repo variables:** `DEPLOY_DIR`, `DEPLOY_DIR_DEV`, `GA_MEASUREMENT_ID`.
 
-Files are synchronized using `deploy.txt` to:
-`/home/u372623295/domains/200.work/public_html/patternator`
+### Local admin (not deployed)
 
-Excluded from deployment:
-- `.git/`
-- `node_modules/`
-- local tooling files (as defined in `deploy.txt`)
+A local-only PHP admin (`admin/`) can upload SVG/PNG and regenerate the manifest. The whole
+`admin/` folder is gitignored and excluded from deployment — open it through a local PHP server.
