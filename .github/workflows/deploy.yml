@@ -1,0 +1,141 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+# Un seul déploiement à la fois PAR BRANCHE (main=prod, dev=staging ne se télescopent pas).
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Site statique : AUCUNE étape de build. On déploie les fichiers du repo tels quels.
+
+      # Injection GA au déploiement : remplace <!-- GA_TAG --> par le snippet gtag
+      # construit depuis la variable repo GA_MEASUREMENT_ID (rien de committé).
+      - name: Injecter Google Analytics
+        if: vars.GA_MEASUREMENT_ID != ''
+        env:
+          GA_ID: ${{ vars.GA_MEASUREMENT_ID }}
+        run: |
+          python3 - <<'PY'
+          import os
+          ga = os.environ["GA_ID"]
+          snippet = (
+              '<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>\n'
+              '<script>\n'
+              'window.dataLayer = window.dataLayer || [];\n'
+              'function gtag(){dataLayer.push(arguments);}\n'
+              "gtag('js', new Date());\n"
+              "gtag('config', '%s');\n"
+              '</script>'
+          ) % (ga, ga)
+          with open("index.html", "r", encoding="utf-8") as f:
+              html = f.read()
+          if "<!-- GA_TAG -->" in html:
+              html = html.replace("<!-- GA_TAG -->", snippet)
+              with open("index.html", "w", encoding="utf-8") as f:
+                  f.write(html)
+              print("→ GA injecté")
+          else:
+              print("→ placeholder <!-- GA_TAG --> absent, rien à faire")
+          PY
+
+      # Cible selon la branche : main → prod (sous-dossier patternator) ; dev → staging (Basic Auth)
+      - name: Cible + verrou dev
+        run: |
+          if [ "${{ github.ref_name }}" = "dev" ]; then
+            echo "DEPLOY_TARGET=${{ vars.DEPLOY_DIR_DEV }}" >> "$GITHUB_ENV"
+            AUTHFILE="/home/u372623295${{ vars.DEPLOY_DIR_DEV }}.htpasswd"
+            printf '%s:%s\n' "${{ secrets.DEV_USER }}" "$(openssl passwd -apr1 '${{ secrets.DEV_PASS }}')" > .htpasswd
+            # Le site n'a pas de .htaccess versionné → on en crée un (verrou Basic Auth seul).
+            printf 'AuthType Basic\nAuthName "Staging - acces restreint"\nAuthUserFile "%s"\nRequire valid-user\n' "$AUTHFILE" > .htaccess
+            echo "→ dev : verrou Basic Auth créé"
+          else
+            echo "DEPLOY_TARGET=${{ vars.DEPLOY_DIR }}" >> "$GITHUB_ENV"
+            echo "→ prod : patternator.200.work"
+          fi
+
+      - name: Deploy via FTPS (tentative 1)
+        id: deploy1
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server:   ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: loose
+          local-dir: ./
+          server-dir: ${{ env.DEPLOY_TARGET }}
+          # Méta-fichiers du repo : jamais déployés (ils ne font pas partie du site).
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            node_modules/**
+            scripts/**
+            admin/**
+            README.md
+            AGENTS.md
+            CLAUDE.md
+            DESIGN.md
+            Makefile
+            deploy.txt
+            deploy.log
+            package.json
+            package-lock.json
+            .editorconfig
+            .htmlhintrc
+            .prettierrc
+            .stylelintrc.cjs
+            .env
+            .env.*
+
+      - name: Pause avant retry
+        if: steps.deploy1.outcome == 'failure'
+        run: sleep 30
+
+      - name: Deploy via FTPS (retry)
+        if: steps.deploy1.outcome == 'failure'
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server:   ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: loose
+          local-dir: ./
+          server-dir: ${{ env.DEPLOY_TARGET }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            node_modules/**
+            scripts/**
+            admin/**
+            README.md
+            AGENTS.md
+            CLAUDE.md
+            DESIGN.md
+            Makefile
+            deploy.txt
+            deploy.log
+            package.json
+            package-lock.json
+            .editorconfig
+            .htmlhintrc
+            .prettierrc
+            .stylelintrc.cjs
+            .env
+            .env.*
