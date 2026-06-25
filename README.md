@@ -74,7 +74,7 @@ FTPS pipeline:
 | Branch | Target | URL |
 |--------|--------|-----|
 | `main` | prod | https://patternator.200.work |
-| `dev`  | staging (Basic Auth) | https://patternator.200.work/dev/ |
+| `dev`  | staging (Basic Auth) | https://dev-patternator.200.work |
 
 No build step — the repo files are deployed as-is over FTPS (meta-files excluded). At deploy
 time the `<!-- GA_TAG -->` placeholder is replaced with the Google Analytics snippet built

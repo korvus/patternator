@@ -55,7 +55,8 @@ php -S localhost:8080      # ou : python3 -m http.server 8080 (favicon PHP inert
 GitHub Actions (`.github/workflows/deploy.yml`), sur push :
 
 - **`main` → prod** : `patternator.200.work` (`/domains/200.work/public_html/patternator/`).
-- **`dev` → staging** : `patternator.200.work/dev/` verrouillé par **Basic Auth**
+- **`dev` → staging** : `dev-patternator.200.work` (sous-domaine dédié,
+  `/domains/200.work/public_html/dev-patternator/`) verrouillé par **Basic Auth**
   (`.htpasswd` généré au déploiement depuis les secrets `DEV_USER` / `DEV_PASS`).
 
 Upload via **FTPS** (`SamKirkland/FTP-Deploy-Action`, port 21, retry 1×). Le placeholder
