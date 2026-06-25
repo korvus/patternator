@@ -16,7 +16,7 @@
 	padding:0 5px;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
 	.box {
 		border-radius: 0;
 	}

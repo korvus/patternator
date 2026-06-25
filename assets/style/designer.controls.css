@@ -265,7 +265,7 @@
 	margin-left: auto;
 }
 
-@media (max-width: 980px) {
+@media (width <= 980px) {
 	#tabcontent_image.tabContent .cols,
 	#tabcontent_canvas .cols {
 		top: 0;
@@ -277,7 +277,7 @@
 	}
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
 	#tabcontent_image.tabContent .cols,
 	#tabcontent_canvas .cols {
 		display: flex;

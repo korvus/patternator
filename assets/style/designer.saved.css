@@ -147,7 +147,7 @@
 	width: 60px;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
 	#savedPatternsPane,
 	#aboutPane {
 		padding: 16px 14px;
