@@ -518,7 +518,7 @@
 	border-radius: 50%;
 	border: 1px solid #4d5a69;
 	background: #3870b2;
-	box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75);
+	box-shadow: 0 0 0 2px rgb(255, 255, 255, 0.75);
 	cursor: grab;
 }
 #tabcontent_rotate .rotateDialKnob.dragging {
