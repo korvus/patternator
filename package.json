@@ -1,8 +1,8 @@
 {
-  "name": "bg-generator-prod",
+  "name": "patternator",
   "version": "1.0.0",
   "private": true,
-  "description": "Local lint setup for Patternator static assets",
+  "description": "Patternator — static seamless background pattern generator (200.work)",
   "scripts": {
     "patterns:generate": "node ./scripts/generate-pattern-manifest.mjs",
     "lint": "npm run lint:css && npm run lint:html",
