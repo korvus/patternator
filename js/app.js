@@ -2187,6 +2187,268 @@ var ControlLoad={
 }
 
 
+//--------------------------- CustomIcons.js --------------------------
+// User-imported SVG icons, kept ONLY in this browser (localStorage). No upload,
+// nothing committed/deployed. Each icon is injected into the live image maps so
+// the regular tint/render/export pipeline treats it like any built-in pattern.
+
+var CustomIcons={
+	storageKey:'patternator:customIcons',
+	maxItems:60,
+	maxSvgBytes:256*1024,
+	_items:null,
+
+	load:function(){
+		if(this._items) return this._items;
+		var list=[];
+		try{
+			var raw=window.localStorage.getItem(this.storageKey);
+			if(raw){
+				var parsed=JSON.parse(raw);
+				if(parsed && parsed.length) list=parsed;
+			}
+		}catch(err){}
+		this._items=list;
+		return list;
+	},
+
+	list:function(){
+		return this.load().slice();
+	},
+
+	_persist:function(){
+		try{
+			window.localStorage.setItem(this.storageKey, JSON.stringify(this._items||[]));
+			return true;
+		}catch(err){
+			return false;
+		}
+	},
+
+	_newId:function(){
+		return 'custom-'+(new Date().getTime())+'-'+Math.floor(Math.random()*1000);
+	},
+
+	toEntry:function(item){
+		return {svg:item.svg, png:'', gif:'', isSvg:true, custom:true};
+	},
+
+	mergeInto:function(map){
+		if(!map) return map;
+		var list=this.load();
+		for(var i=0;i<list.length;i++){
+			map[list[i].id]=this.toEntry(list[i]);
+		}
+		return map;
+	},
+
+	registerLive:function(item){
+		var entry=this.toEntry(item);
+		if(PatternLibrary.imageMap){ PatternLibrary.imageMap[item.id]=entry; }
+		if(CanvasScreen.imageMap){ CanvasScreen.imageMap[item.id]=entry; }
+	},
+
+	add:function(name, svgDataUrl){
+		var list=this.load();
+		if(list.length>=this.maxItems){
+			window.alert('Custom icon limit reached ('+this.maxItems+'). Delete one before importing more.');
+			return null;
+		}
+		var item={id:this._newId(), name:name||'icon', svg:svgDataUrl, addedAt:(new Date()).toISOString()};
+		list.push(item);
+		if(!this._persist()){
+			list.pop();
+			window.alert('Could not save the icon — your browser storage is full.');
+			return null;
+		}
+		return item;
+	},
+
+	remove:function(id){
+		var list=this.load();
+		for(var i=0;i<list.length;i++){
+			if(list[i].id===id){ list.splice(i,1); break; }
+		}
+		this._persist();
+	},
+
+	removeAndUnregister:function(id){
+		this.remove(id);
+		if(PatternLibrary.imageMap){ delete PatternLibrary.imageMap[id]; }
+		if(CanvasScreen.imageMap){ delete CanvasScreen.imageMap[id]; }
+		if(CanvasScreen.iconBoundsCache){ delete CanvasScreen.iconBoundsCache[id]; }
+		if(ControlParams.fields && ControlParams.fields.image && ControlParams.fields.image.value===id){
+			ControlParams.updateParam('image', PatternLibrary.getDefaultImage());
+		}
+		this.renderSection();
+	},
+
+	confirmRemove:function(item){
+		if(window.confirm('Delete the imported icon "'+(item.name||item.id)+'"?')){
+			this.removeAndUnregister(item.id);
+		}
+	},
+
+	_niceName:function(filename){
+		var name=String(filename||'icon').replace(/\.svg$/i,'').replace(/[_-]+/g,' ').trim();
+		return name||'icon';
+	},
+
+	// Parse + scrub the SVG: reject non-SVG/malformed, strip <script>, <foreignObject>,
+	// on* handlers and javascript: hrefs, and backfill width/height from viewBox so the
+	// icon has an intrinsic size for <img>/canvas.
+	_sanitizeSvg:function(text){
+		if(!text || text.indexOf('<svg')==-1) return '';
+		try{
+			var doc=new DOMParser().parseFromString(text,'image/svg+xml');
+			var parseErr=doc.getElementsByTagName('parsererror');
+			if(parseErr && parseErr.length) return '';
+			var svg=doc.documentElement;
+			if(!svg || String(svg.nodeName).toLowerCase()!=='svg') return '';
+			this._stripTags(svg,'script');
+			this._stripTags(svg,'foreignObject');
+			this._scrubAttrs(svg);
+			if(!svg.getAttribute('width') || !svg.getAttribute('height')){
+				var vb=svg.getAttribute('viewBox');
+				if(vb){
+					var parts=vb.split(/[\s,]+/);
+					if(parts.length===4){
+						svg.setAttribute('width',parts[2]);
+						svg.setAttribute('height',parts[3]);
+					}
+				}
+			}
+			return new XMLSerializer().serializeToString(svg);
+		}catch(err){
+			return '';
+		}
+	},
+
+	_stripTags:function(root,tag){
+		var nodes=root.getElementsByTagName(tag);
+		while(nodes.length){
+			if(nodes[0].parentNode){ nodes[0].parentNode.removeChild(nodes[0]); }
+			else break;
+		}
+	},
+
+	_scrubAttrs:function(node){
+		if(node.attributes){
+			for(var i=node.attributes.length-1;i>=0;i--){
+				var attr=node.attributes[i];
+				var name=String(attr.name||'').toLowerCase();
+				var val=String(attr.value||'').toLowerCase().replace(/\s+/g,'');
+				if(name.indexOf('on')===0){ node.removeAttribute(attr.name); continue; }
+				if((name==='href'||name==='xlink:href') && val.indexOf('javascript:')===0){ node.removeAttribute(attr.name); }
+			}
+		}
+		var kids=node.childNodes;
+		for(var j=0;j<kids.length;j++){
+			if(kids[j].nodeType===1) this._scrubAttrs(kids[j]);
+		}
+	},
+
+	handleFiles:function(files){
+		if(!files || !files.length) return;
+		var self=this;
+		var firstNewId=null;
+		var process=function(file){
+			if(!/svg/i.test(file.type||'') && !/\.svg$/i.test(file.name||'')){
+				window.alert('"'+file.name+'" is not an SVG file.');
+				return;
+			}
+			var reader=new FileReader();
+			reader.onload=function(){
+				var sanitized=self._sanitizeSvg(String(reader.result||''));
+				if(!sanitized){
+					window.alert('"'+file.name+'" could not be read as a valid SVG.');
+					return;
+				}
+				if(sanitized.length>self.maxSvgBytes){
+					window.alert('"'+file.name+'" is too large (max '+Math.round(self.maxSvgBytes/1024)+' KB).');
+					return;
+				}
+				var dataUrl='data:image/svg+xml,'+encodeURIComponent(sanitized);
+				var item=self.add(self._niceName(file.name), dataUrl);
+				if(!item) return;
+				self.registerLive(item);
+				self.renderSection();
+				if(!firstNewId){
+					firstNewId=item.id;
+					ControlParams.updateParam('image', item.id);
+				}
+			};
+			reader.onerror=function(){
+				window.alert('Could not read "'+file.name+'".');
+			};
+			reader.readAsText(file);
+		};
+		for(var i=0;i<files.length;i++){ process(files[i]); }
+	},
+
+	renderSection:function(){
+		var mount=document.getElementById('customIconsList');
+		if(!mount) return;
+		mount.innerHTML='';
+		var list=this.list();
+		var label=document.getElementById('customIconsLabel');
+		if(label){ label.style.display=list.length?'block':'none'; }
+		var self=this;
+		for(var i=0;i<list.length;i++){
+			(function(item){
+				var anchor=document.createElement('a');
+				anchor.href='#';
+				anchor.className='imageItem ico customIcon';
+				anchor.setAttribute('data-image-id',item.id);
+				anchor.title=item.name||item.id;
+				anchor.onclick=function(){ ControlParams.updateParam('image',item.id); return false; };
+
+				var img=document.createElement('img');
+				img.alt=item.name||item.id;
+				img.style.padding='4px';
+				img.style.boxSizing='border-box';
+				img.src=item.svg;
+				anchor.appendChild(img);
+
+				var del=document.createElement('span');
+				del.className='customIconDelete';
+				del.innerHTML='&times;';
+				del.title='Delete';
+				del.onclick=function(ev){
+					if(ev){ ev.stopPropagation(); if(ev.preventDefault) ev.preventDefault(); }
+					self.confirmRemove(item);
+					return false;
+				};
+				anchor.appendChild(del);
+
+				mount.appendChild(anchor);
+			})(list[i]);
+		}
+	},
+
+	init:function(){
+		var input=document.getElementById('customSvgInput');
+		var btn=document.getElementById('customSvgBtn');
+		var self=this;
+		if(input && !input._bound){
+			input._bound=true;
+			input.onchange=function(){
+				self.handleFiles(input.files);
+				input.value='';
+			};
+		}
+		if(btn && !btn._bound){
+			btn._bound=true;
+			btn.onclick=function(){
+				var node=document.getElementById('customSvgInput');
+				if(node) node.click();
+				return false;
+			};
+		}
+		this.renderSection();
+	}
+};
+
 //--------------------------- CanvasScreen.js --------------------------
 
 var PatternLibrary={
@@ -2225,6 +2487,7 @@ var PatternLibrary={
 			self.lastError='';
 			self.manifest=manifest;
 			self.imageMap=self._buildMapFromManifest(manifest);
+			CustomIcons.mergeInto(self.imageMap);
 			onSuccess();
 		};
 		xhr.open('GET',this.manifestPath,true);
@@ -2514,7 +2777,7 @@ var CanvasScreen={
 					// Ignore sub-pixel trim drift on highly symmetric SVGs such as circles.
 					var offsetX=Math.abs(rawOffsetX)<1.25?0:Math.round(rawOffsetX);
 					var offsetY=Math.abs(rawOffsetY)<1.25?0:Math.round(rawOffsetY);
-					var useAlphaOnly=(iconImg.src&&iconImg.src.toLowerCase().indexOf('.svg')!=-1);
+					var useAlphaOnly=this._isSvgImage(imageId, iconImg);
 					var tint=this._getTinted(iconImg, bounds, iw, ih, this.state.fgColor, imageId, scale, useAlphaOnly);
 					if(tint){
 					tctx.save();
@@ -2645,9 +2908,15 @@ var CanvasScreen={
 			return img;
 		},
 
+		_isSvgImage:function(imageId, img){
+			var entry=this.imageMap&&imageId?this.imageMap[imageId]:null;
+			if(entry && entry.isSvg) return true;
+			return !!(img && img.src && img.src.toLowerCase().indexOf('.svg')!=-1);
+		},
+
 		_getIconBounds:function(img, imageId){
 			if(this.iconBoundsCache[imageId]) return this.iconBoundsCache[imageId];
-			var isSvg=(img && img.src && img.src.toLowerCase().indexOf('.svg')!=-1);
+			var isSvg=this._isSvgImage(imageId, img);
 			if(isSvg && this._shouldUseFullSvgBounds(imageId, img)){
 				var fullBounds={sx:0,sy:0,sw:Math.max(1,img.width),sh:Math.max(1,img.height)};
 				this.iconBoundsCache[imageId]=fullBounds;
@@ -3942,6 +4211,11 @@ function init(){
 		//------------------- init params syncer --------------------
 
 		ControlParams.init(initialValues);
+
+		//------------------- init custom (imported) icons ----------
+
+		CustomIcons.init();
+
 			//------------------- init params fields --------------------
 
 		ControlSliders.init({

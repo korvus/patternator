@@ -97,10 +97,64 @@ input.paramsField {
 	margin: 0;
 }
 
-#patternLibraryList::after {
+#patternLibraryList::after,
+#customIconsList::after {
 	content: '';
 	display: block;
 	clear: both;
+}
+
+/*------------------ custom (imported) icons -------------------*/
+
+.customUploadRow {
+	padding: 4px 2px 8px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.customUploadBtn {
+	display: inline-block;
+	padding: 5px 12px;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	background: #f5f5f5;
+	color: #333;
+	font-size: 12px;
+	cursor: pointer;
+	text-decoration: none;
+}
+.customUploadBtn:hover {
+	border-color: #555;
+	background: #ececec;
+}
+.customUploadHint {
+	font-size: 11px;
+	color: #999;
+}
+.samplesPane a.imageItem.customIcon {
+	position: relative;
+}
+.customIconDelete {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 16px;
+	height: 16px;
+	line-height: 15px;
+	text-align: center;
+	font-size: 13px;
+	color: #fff;
+	background: rgb(0 0 0 / 55%);
+	border-radius: 0 0 0 4px;
+	cursor: pointer;
+	display: none;
+}
+.samplesPane a.imageItem.customIcon:hover .customIconDelete {
+	display: block;
+}
+.customIconDelete:hover {
+	background: rgb(180 30 30 / 85%);
 }
 
 /*------------------ misc -------------------*/

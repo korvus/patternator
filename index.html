@@ -174,7 +174,14 @@ var initialValues={
 							</div>
 						</div>
 						<div class="samplesPane" id="patternLibraryPane">
+							<div class="customUploadRow">
+								<input type="file" id="customSvgInput" accept=".svg,image/svg+xml" style="display:none">
+								<a href="#" class="customUploadBtn" id="customSvgBtn">Import an SVG icon</a>
+								<span class="customUploadHint">stored in this browser only</span>
+							</div>
 							<p class="patternLibraryStatus" id="patternLibraryStatus">Loading patterns...</p>
+							<div class="blockName" id="customIconsLabel" style="display:none">My icons</div>
+							<div id="customIconsList"></div>
 							<div id="patternLibraryList"></div>
 						</div>
 					</div>
