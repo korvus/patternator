@@ -114,19 +114,35 @@ input.paramsField {
 	flex-wrap: wrap;
 }
 .customUploadBtn {
-	display: inline-block;
-	padding: 5px 12px;
-	border: 1px solid #aaa;
-	border-radius: 4px;
-	background: #f5f5f5;
-	color: #333;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 14px;
+	border: 1px solid rgb(0 0 0 / 12%);
+	border-radius: 6px;
+	background: var(--ui-accent, #577d5d);
+	color: var(--ui-accent-ink, #fff);
 	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.2px;
 	cursor: pointer;
 	text-decoration: none;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 18%);
+	transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+.customUploadBtn::before {
+	content: '＋';
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1;
 }
 .customUploadBtn:hover {
-	border-color: #555;
-	background: #ececec;
+	filter: brightness(0.94);
+	box-shadow: 0 2px 5px rgb(0 0 0 / 24%);
+}
+.customUploadBtn:active {
+	transform: translateY(1px);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
 }
 .customUploadHint {
 	font-size: 11px;

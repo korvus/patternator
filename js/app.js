@@ -3745,6 +3745,21 @@ var DynamicUi={
 		for(var i=0;i<ranges.length;i++){
 			ranges[i].style.setProperty('--range-accent','#'+hex);
 		}
+		var root=document.documentElement;
+		if(root){
+			root.style.setProperty('--ui-accent','#'+hex);
+			root.style.setProperty('--ui-accent-ink',this._contrastInk(hex));
+		}
+	},
+	// Pick a readable text color for a filled accent: white on dark, near-black on light.
+	_contrastInk:function(hex){
+		hex=String(hex||'').replace('#','');
+		if(hex.length!==6) return '#fff';
+		var r=parseInt(hex.slice(0,2),16);
+		var g=parseInt(hex.slice(2,4),16);
+		var b=parseInt(hex.slice(4,6),16);
+		var lum=(0.2126*r+0.7152*g+0.0722*b)/255;
+		return lum>0.62?'#1c1c1c':'#fff';
 	}
 };
 
