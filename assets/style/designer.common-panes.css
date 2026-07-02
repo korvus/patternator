@@ -131,8 +131,8 @@ input.paramsField {
 	transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 .customUploadBtn::before {
-	content: '＋';
-	font-size: 13px;
+	content: '+';
+	font-size: 15px;
 	font-weight: 700;
 	line-height: 1;
 }
